@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html {
+    font-family: var(--font-robot), sans-serif
+  }
+
+  body {
+    @apply bg-light_gray
+  }
+
+  h1 {
+    @apply text-dark_blue text-4xl font-bold
+  }
+
+  h2 {
+    @apply text-dark_gray text-xl
+  }
+}
+
+@layer components {
+  
+
+}

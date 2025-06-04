@@ -1,8 +1,10 @@
-export default function Profile() {
 
+
+export default function Profile({id} : {id:number}) {
+ 
     return (
-        <div>   
-
+        <div className="page">   
+            <h2>Users {" > "} List</h2>
         </div>
     )
 }

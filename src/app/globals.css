@@ -22,6 +22,8 @@
 }
 
 @layer components {
-  
+  .page {
+    @apply p-8 space-y-4 flex flex-col h-full
+  }
 
 }

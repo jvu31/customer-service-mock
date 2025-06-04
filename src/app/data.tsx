@@ -1,3 +1,5 @@
+import { createContext, useState, useContext, Dispatch, SetStateAction } from 'react'
+
 interface Vehicle {
     id: number;
     make: string
@@ -56,9 +58,14 @@ interface Customer {
     card: Card
 }
 
+interface UserContextType {
+  user: Customer[];
+  setUser: Dispatch<SetStateAction<Customer[]>>;
+}
 
 
-export const customers: Customer[] = [
+
+const customers: Customer[] = [
   {
     "id": 6,
     "name": "Mark Neal",
@@ -2710,3 +2717,15 @@ export const customers: Customer[] = [
     }
   }
 ]
+
+export const UserContext = createContext<UserContextType | undefined>(undefined);
+
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<Customer[]>(customers);
+
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  )
+}

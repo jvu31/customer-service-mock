@@ -100,9 +100,7 @@ export default function GeneralInfo({ user, updateUser }: Props) {
             <div className="flex flex-col w-full space-y-4">
               {(["name", "email", "phone"] as const).map((field) => (
                 <div key={field} className="relative w-full flex textbox">
-                  <label
-                    className="header"
-                  >
+                  <label className="header">
                     {field.charAt(0).toUpperCase() + field.slice(1)}
                   </label>
                   <input
@@ -117,9 +115,9 @@ export default function GeneralInfo({ user, updateUser }: Props) {
                     placeholder=""
                     className="area"
                     onChange={(e) => {
-                      if (field === "name") setName(e.target.value)
-                      else if (field === "email") setEmail(e.target.value)
-                      else if (field === "phone") setPhone(e.target.value)
+                      if (field === "name") setName(e.target.value);
+                      else if (field === "email") setEmail(e.target.value);
+                      else if (field === "phone") setPhone(e.target.value);
                       setPendingChanges(true);
                     }}
                   />
@@ -127,7 +125,7 @@ export default function GeneralInfo({ user, updateUser }: Props) {
               ))}
             </div>
             <select
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark_blue text-sm" // Changed flex-1 to w-full for consistency
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dark_blue text-sm"
               defaultValue={user.membership.type}
               onChange={(e) => {
                 setMembership(e.target.value);
@@ -142,8 +140,7 @@ export default function GeneralInfo({ user, updateUser }: Props) {
             </select>
             <button
               className={`
-                items-center bg-dark_blue hover:bg-light_blue rounded-full p-2 text-white text-left w-fit
-                transition-all duration-300 ease-in-out transform
+                button-confirm
                 ${
                   pendingChanges
                     ? "opacity-100 scale-100"

@@ -2,42 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   html {
-    font-family: var(--font-robot), sans-serif
+    font-family: var(--font-robot), sans-serif;
   }
 
   body {
-    @apply bg-light_gray
+    @apply bg-light_gray;
   }
 
   h1 {
-    @apply text-dark_blue text-4xl font-bold
+    @apply text-dark_blue text-4xl font-bold;
   }
 
   h2 {
-    @apply text-dark_gray text-xl
+    @apply text-dark_gray text-xl;
   }
 
   h3 {
-    @apply text-black text-xl
+    @apply text-black text-xl;
+  }
+  h4 {
+    @apply text-dark_blue text-2xl;
   }
 }
 
 @layer components {
   .page {
-    @apply p-8 space-y-4 flex flex-col h-full
+    @apply p-8 space-y-4 flex flex-col h-full;
   }
 
   .textbox {
     .header {
-      @apply absolute -top-2 left-2 px-1 text-xs text-black bg-white z-10
+      @apply absolute -top-2 left-2 px-1 text-xs text-black bg-white z-10;
     }
 
     .area {
-      @apply w-full h-10 px-2 pt-2 pb-1 text-sm border border-dark_gray rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-dark_blue
+      @apply w-full h-10 px-2 pt-2 pb-1 text-sm border border-dark_gray rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-dark_blue;
     }
   }
 
+  .button-confirm {
+    @apply items-center bg-dark_blue hover:bg-light_blue rounded-full p-2 text-white text-left w-fit
+                transition-all duration-200 ease-in-out transform;
+  }
+
+  .button-delete {
+    @apply bg-red-700 hover:bg-red-500 text-white font-bold px-4 py-1 rounded-lg
+            transition-all duration-200 ease-in-out transform;
+  }
+  
+  .table {
+    @apply bg-white rounded-lg w-full p-4 flex flex-col flex-1 overflow-hidden
+  }
+
+  .table-header {
+      @apply grid text-dark_gray border-b border-dark_blue px-2 py-2
+    }
 }

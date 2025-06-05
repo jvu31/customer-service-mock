@@ -52,7 +52,7 @@ export default function List() {
 
   return (
     <div className="page">
-      <h2>Users {" > "} List</h2>
+      <h2>Users <span className="mx-3">{">"}</span> List</h2>
       <h1>List</h1>
       {/* Search */}
       <div className="flex items-center border border-dark_gray rounded-full bg-white w-1/4">
@@ -65,8 +65,8 @@ export default function List() {
         />
       </div>
       {/* Table */}
-      <div className="bg-white rounded-lg w-full p-4 flex flex-col flex-1 overflow-hidden">
-        <div className="grid grid-cols-4 text-dark_gray border-b border-dark_blue px-2 py-2">
+      <div className="table">
+        <div className="table-header grid-cols-4 ">
           {/* Labels */}
           <button
             className="text-left w-fit underline underline-offset-4 hover:text-dark_blue"
@@ -79,7 +79,7 @@ export default function List() {
           <div>Status</div>
         </div>
         {/* List */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto max-h-[450px]">
           {currentUsers.map((user) => (
             <Link href={`/users/${user.id}/profile`} key={user.id}>
               <div className="border-b border-light_blue py-4 hover:bg-light_gray">

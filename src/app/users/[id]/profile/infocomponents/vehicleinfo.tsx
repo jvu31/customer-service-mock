@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import Image from "next/image";
 import { Customer } from "@/app/data";
+import type { Vehicle } from "@/app/data";
+import Popup from "@/app/utilitycomponents/popup";
 
 interface Props {
   user: Customer;
@@ -16,13 +18,26 @@ export default function Vehicle({ user, updateVehicles }: Props) {
   const [newVehicles, setNewVehicles] = useState(user.vehicles);
   const [newSubscriptions, setNewSubscriptions] = useState(user.subscriptions);
 
+  // Values for adding new vehicle
+  const [newMake, setMake] = useState("");
+  const [newModel, setModel] = useState("");
+  const [newColor, setColor] = useState("");
+  const [newPlate, setPlate] = useState("");
+
+  // Popup Management
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupHeader, setPopupHeader] = useState("");
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupAction, setPopupAction] = useState("update");
+  const [removedVehicle, setRemovedVehicle] = useState(-1);
+
   useEffect(() => {
     if (user) {
       setNewVehicles(user.vehicles);
       setNewSubscriptions(user.subscriptions);
       setPendingChanges(false);
     }
-  }, [user, editVehicles]);
+  }, [user]);
 
   // Handles saving the changes
   const saveChanges = () => {
@@ -32,15 +47,61 @@ export default function Vehicle({ user, updateVehicles }: Props) {
     });
     setEditVehicles(false);
     setPendingChanges(false);
+    setShowPopup(false);
   };
 
-  // Updates individual elem of vehicle
-  const updateVehicleInfo = (id: number, field: string, value: string) => {
+  // Add new vehicle
+  const addVehicle = () => {
+    const newVehicle: Vehicle = {
+      id: newVehicles.length + 1,
+      make: newMake,
+      model: newModel,
+      color: newColor,
+      plate: newPlate,
+      image: "/cars/dumb.png",
+      subscription: "None",
+    };
+
+    setNewVehicles((prevVehicles) => [...prevVehicles, { ...newVehicle }]);
+    setPendingChanges(true);
+    setMake("");
+    setModel("");
+    setColor("");
+    setPlate("");
+  };
+
+  // Removing vehicle check
+  const removeVehicleCheck = (id: number) => {
+    setPopupHeader("Removing Vehicle");
+    setPopupMessage("Are you sure you want to remove this vehicle?");
+    setPopupAction("remove");
+    setRemovedVehicle(id);
+    setShowPopup(true);
+  };
+
+  // Removes the vehicle from the list
+  const removeVehicle = () => {
+    setNewVehicles((prevVehicles) =>
+      prevVehicles.filter((vehicle) => vehicle.id !== removedVehicle)
+    );
+    setPendingChanges(true);
+    setRemovedVehicle(-1);
+    setPopupAction("update");
+    setShowPopup(false);
+  };
+
+  // Updates vehicles
+  const updateVehicleInfo = (
+    id: number,
+    field: keyof Omit<Vehicle, "id" | "subscription">,
+    value: string
+  ) => {
     setNewVehicles((prevVehicles) =>
       prevVehicles.map((vehicle) =>
-        vehicle.id === id ? { ...vehicle, [field]: value } : vehicle
+        vehicle.id === id ? { ...vehicle, [field as string]: value } : vehicle
       )
     );
+
     setPendingChanges(true);
   };
 
@@ -53,23 +114,31 @@ export default function Vehicle({ user, updateVehicles }: Props) {
           (subscription) => subscription.vehicle_id !== id
         )
       );
+      setPopupHeader("Removing Subscription");
+      setPopupMessage("Are you sure you want to remove this subscription?");
     } else {
-        
-    // Adding a new subcription to list
-      if (!newSubscriptions.some((subscription) => subscription.vehicle_id === id)) {
+      // Adding a new subcription to list
+      if (
+        !newSubscriptions.some((subscription) => subscription.vehicle_id === id)
+      ) {
         setNewSubscriptions((prevSubscriptions) => [
           ...prevSubscriptions,
           { id: 0, vehicle_id: id, type: value },
         ]);
+        setPopupHeader("Adding Subscription");
+        setPopupMessage("Are you sure you want to add this subscription?");
       }
       // Modifying an existing subscription
-      else { 
+      else {
         setNewSubscriptions((prevSubscriptions) =>
-        prevSubscriptions.map((subscription) =>
-          subscription.vehicle_id === id
-            ? { ...subscription, type: value }
-            : subscription
-        ))
+          prevSubscriptions.map((subscription) =>
+            subscription.vehicle_id === id
+              ? { ...subscription, type: value }
+              : subscription
+          )
+        );
+        setPopupHeader("Modifying Subscription");
+        setPopupMessage("Are you sure you want to modify this subscription?");
       }
     }
     setPendingChanges(true);
@@ -92,7 +161,7 @@ export default function Vehicle({ user, updateVehicles }: Props) {
       {/* Non-Editing Mode */}
       {editVehicles !== true && (
         <div className="grid grid-cols-4 gap-2">
-          {user.vehicles.map((vehicle) => (
+          {newVehicles.map((vehicle) => (
             <div
               key={vehicle.id}
               className="bg-white rounded-lg flex flex-col items-center justify-center shadow-md p-8 w-[300px]"
@@ -108,14 +177,14 @@ export default function Vehicle({ user, updateVehicles }: Props) {
                 {vehicle.make} {vehicle.model} {vehicle.color}
               </h1>
               <h2 className="text-left w-full px-2">{vehicle.plate}</h2>
-              {user.subscriptions.find(
+              {newSubscriptions.find(
                 (subscription) => subscription.vehicle_id === vehicle.id
               ) && (
                 <div className="w-full px-2 mt-1">
                   <span className="text-xs bg-blue-100 text-blue-700 p-2 rounded-full">
                     Subscription:{" "}
                     {
-                      user.subscriptions.find(
+                      newSubscriptions.find(
                         (sub) => sub.vehicle_id === vehicle.id
                       )?.type
                     }
@@ -124,12 +193,71 @@ export default function Vehicle({ user, updateVehicles }: Props) {
               )}
             </div>
           ))}
+          {/* Adding a new vehicle */}
+          <div className="bg-white rounded-lg flex flex-col items-center justify-center shadow-md p-8 w-[300px] space-y-4">
+            <div className="py-4">
+              <button
+              className={`items-center justify-center px-4 py-2 rounded text-white ${
+                !newMake || !newModel || !newColor || !newPlate
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-dark_blue hover:bg-light_blue"
+              }`}
+              onClick={addVehicle}
+              disabled={!newMake || !newModel || !newColor || !newPlate}
+            >
+              Add Vehicle
+            </button>
+              </div>
+            <div className="flex w-full space-x-2 textbox">
+              {["make", "model", "color"].map((field) => (
+                <div key={field} className="relative w-24 flex">
+                  <label className="header">
+                    {field.charAt(0).toUpperCase() + field.slice(1)}
+                  </label>
+                  <input
+                    id={field}
+                    type="text"
+                    value={
+                      field === "make"
+                        ? newMake
+                        : field === "model"
+                        ? newModel
+                        : newColor
+                    }
+                    placeholder=""
+                    className="area"
+                    onChange={(e) => {
+                      if (field === "make") {
+                        setMake(e.target.value);
+                      } else if (field === "model") {
+                        setModel(e.target.value);
+                      } else if (field === "color") {
+                        setColor(e.target.value);
+                      }
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="relative w-24 flex textbox">
+              <label className="header">Plate</label>
+              <input
+                type="text"
+                value={newPlate}
+                placeholder=""
+                className="area"
+                onChange={(e) => {
+                  setPlate(e.target.value);
+                }}
+              />
+            </div>
+          </div>
         </div>
       )}
       {/* Editing Mode */}
       {editVehicles === true && (
         <div className="grid grid-cols-4 gap-2">
-          {user.vehicles.map((vehicle) => (
+          {newVehicles.map((vehicle) => (
             <div
               key={vehicle.id}
               className="bg-white rounded-lg flex flex-col shadow-md p-8 w-[300px] space-y-2"
@@ -153,37 +281,42 @@ export default function Vehicle({ user, updateVehicles }: Props) {
                       <input
                         id={field}
                         type="text"
-                        defaultValue={vehicle[field]}
+                        value={vehicle[field as keyof Vehicle] as string}
                         placeholder=""
                         className="area"
                         onChange={(e) => {
-                          updateVehicleInfo(vehicle.id, field, e.target.value);
+                          updateVehicleInfo(
+                            vehicle.id,
+                            field as keyof Omit<Vehicle, "id" | "subscription">,
+                            e.target.value
+                          );
                         }}
                       />
                     </div>
                   )
                 )}
               </div>
-              <div className="relative w-24 flex">
-                <label className="absolute -top-2 left-2 px-1 text-xs text-black bg-white z-10">
-                  Plate
-                </label>
+              <div className="relative w-24 flex textbox">
+                <label className="header">Plate</label>
                 <input
                   type="text"
-                  defaultValue={vehicle.plate}
+                  value={vehicle.plate}
                   placeholder=""
-                  className="w-full h-10 px-2 pt-2 pb-1 text-sm border border-dark_gray rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-dark_blue text-left"
+                  className="area"
                   onChange={(e) => {
-                    updateVehicleInfo(vehicle.id, "plate", e.target.value);
+                    updateVehicleInfo(
+                      vehicle.id,
+                      "plate" as keyof Omit<Vehicle, "id" | "subscription">,
+                      e.target.value
+                    );
                   }}
                 />
               </div>
               <select
                 className="w-full p-2 border border-dark_gray rounded-md focus:outline-none focus:ring-2 focus:ring-dark_blue text-sm"
-                defaultValue={
-                  user.subscriptions.find(
-                    (sub) => sub.vehicle_id === vehicle.id
-                  )?.type ?? "None"
+                value={
+                  newSubscriptions.find((sub) => sub.vehicle_id === vehicle.id)
+                    ?.type ?? "None"
                 }
                 onChange={(e) => {
                   updateSubscriptionInfo(vehicle.id, e.target.value);
@@ -194,6 +327,12 @@ export default function Vehicle({ user, updateVehicles }: Props) {
                 <option value="Weekly">Weekly</option>
                 <option value="None">None</option>
               </select>
+              <button
+                className="button-delete"
+                onClick={() => removeVehicleCheck(vehicle.id)}
+              >
+                Remove Car
+              </button>
             </div>
           ))}
           <button
@@ -206,12 +345,22 @@ export default function Vehicle({ user, updateVehicles }: Props) {
                     : "opacity-0 scale-95 pointer-events-none"
                 }
               `}
-            onClick={() => saveChanges()}
+            onClick={() => {
+              setShowPopup(true);
+            }}
             disabled={!pendingChanges}
           >
             Save Changes
           </button>
         </div>
+      )}
+      {showPopup && (
+        <Popup
+          onConfirm={popupAction === "remove" ? removeVehicle : saveChanges}
+          onCancel={() => setShowPopup(false)}
+          header={popupHeader}
+          message={popupMessage}
+        />
       )}
     </div>
   );

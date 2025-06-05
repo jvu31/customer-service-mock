@@ -19,11 +19,25 @@
   h2 {
     @apply text-dark_gray text-xl
   }
+
+  h3 {
+    @apply text-black text-xl
+  }
 }
 
 @layer components {
   .page {
     @apply p-8 space-y-4 flex flex-col h-full
+  }
+
+  .textbox {
+    .header {
+      @apply absolute -top-2 left-2 px-1 text-xs text-black bg-white z-10
+    }
+
+    .area {
+      @apply w-full h-10 px-2 pt-2 pb-1 text-sm border border-dark_gray rounded-md text-black bg-white focus:outline-none focus:ring-2 focus:ring-dark_blue
+    }
   }
 
 }

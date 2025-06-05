@@ -2,8 +2,7 @@
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { Suspense } from 'react';
-//import { UserProvider } from "../../../components/data";
-const LazyProfile = React.lazy(() => import("../../../../components/profile"));
+const LazyProfile = React.lazy(() => import("./profile"));
 
 export default function ProfilePage() {
   const params = useParams();
@@ -11,9 +10,7 @@ export default function ProfilePage() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      
         <LazyProfile id={id} />
-      
     </Suspense>
   );
 }

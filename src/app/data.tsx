@@ -1,6 +1,6 @@
+"use client"
 import { createContext, useState, useContext, Dispatch, SetStateAction } from 'react'
-
-interface Vehicle {
+export interface Vehicle { // Export Vehicle interface
     id: number;
     make: string
     model: string
@@ -45,12 +45,13 @@ interface Subscriptions {
     vehicle_id: number
 }
 
-interface Customer {
+export interface Customer {
     id: number;
     name: string;
     email: string;
     phone: string
     membership: Membership
+    profileImage: string;
     status: string
     subscriptions: Subscriptions[]
     vehicles: Vehicle[]
@@ -64,1929 +65,166 @@ interface UserContextType {
 }
 
 
-
 const customers: Customer[] = [
   {
-    "id": 6,
-    "name": "Mark Neal",
-    "email": "mark.neal73@example.com",
-    "phone": "+1-977-608-7246",
+    "id": 1,
+    "name": "Allison Hill",
+    "email": "jillrhodes@miller.com",
+    "phone": "890.838.6379",
     "status": "active",
     "membership": {
-      "id": 5006,
+      "id": 5001,
       "type": "Platinum",
-      "start": "2025-04-25",
-      "renew": "2026-04-25"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
-    "subscriptions": [
-      {
-        "id": 2006,
-        "type": "Monthly",
-        "vehicle_id": 1006
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1006,
-        "make": "Ford",
-        "model": "Impala",
-        "color": "DimGray",
-        "plate": "PLT-1006",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4006,
-        "type": "Car Wash",
-        "date": "2025-04-27",
-        "amount": 22.8,
-        "card": 3006,
-        "location": "Valenzuelaton Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3006,
-      "name": "Mark Neal",
-      "address": "040 Frazier Mountain Suite 288",
-      "city": "Valenzuelaton",
-      "state": "TX",
-      "zip": 44051,
-      "country": "USA",
-      "card_number": 4111111111113301,
-      "cvv": 264,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 7,
-    "name": "Jessica Robinson",
-    "email": "jessica.robinson62@example.com",
-    "phone": "349.022.2215x30794",
-    "status": "overdue",
-    "membership": {
-      "id": 5007,
-      "type": "Basic",
-      "start": "2025-05-03",
-      "renew": "2026-05-03"
-    },
-    "subscriptions": [
-      {
-        "id": 2007,
-        "type": "Monthly",
-        "vehicle_id": 1007
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1007,
-        "make": "Ford",
-        "model": "F-150",
-        "color": "Azure",
-        "plate": "PLT-1007",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4007,
-        "type": "Waxing",
-        "date": "2025-05-05",
-        "amount": 53.1,
-        "card": 3007,
-        "location": "Shelbybury Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3007,
-      "name": "Jessica Robinson",
-      "address": "563 Vanessa Brook Suite 602",
-      "city": "Shelbybury",
-      "state": "FL",
-      "zip": 51724,
-      "country": "USA",
-      "card_number": 4111111111115080,
-      "cvv": 256,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 8,
-    "name": "Jose Pitts",
-    "email": "jose.pitts75@example.com",
-    "phone": "001-165-815-0762x7125",
-    "status": "active",
-    "membership": {
-      "id": 5008,
-      "type": "Elite",
-      "start": "2024-12-10",
-      "renew": "2025-12-10"
-    },
-    "subscriptions": [
-      {
-        "id": 2008,
-        "type": "Monthly",
-        "vehicle_id": 1008
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1008,
-        "make": "BMW",
-        "model": "Civic",
-        "color": "DeepPink",
-        "plate": "PLT-1008",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4008,
-        "type": "Car Wash",
-        "date": "2024-12-12",
-        "amount": 64.63,
-        "card": 3008,
-        "location": "Andersonmouth Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3008,
-      "name": "Jose Pitts",
-      "address": "95298 Rice Flat Suite 635",
-      "city": "Andersonmouth",
-      "state": "ME",
-      "zip": 67023,
-      "country": "USA",
-      "card_number": 4111111111114631,
-      "cvv": 716,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 9,
-    "name": "Mary Howell",
-    "email": "mary.howell15@example.com",
-    "phone": "345-124-5816x298",
-    "status": "active",
-    "membership": {
-      "id": 5009,
-      "type": "Gold",
-      "start": "2025-05-05",
-      "renew": "2026-05-05"
-    },
-    "subscriptions": [
-      {
-        "id": 2009,
-        "type": "Monthly",
-        "vehicle_id": 1009
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1009,
-        "make": "Chevrolet",
-        "model": "X5",
-        "color": "Turquoise",
-        "plate": "PLT-1009",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4009,
-        "type": "Detailing",
-        "date": "2025-05-07",
-        "amount": 44.22,
-        "card": 3009,
-        "location": "Barberborough Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3009,
-      "name": "Mary Howell",
-      "address": "306 Julia Mews Suite 746",
-      "city": "Barberborough",
-      "state": "OR",
-      "zip": 70078,
-      "country": "USA",
-      "card_number": 4111111111116947,
-      "cvv": 554,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 10,
-    "name": "William Young",
-    "email": "william.young75@example.com",
-    "phone": "001-043-256-8686x124",
-    "status": "overdue",
-    "membership": {
-      "id": 5010,
-      "type": "Basic",
-      "start": "2025-05-08",
-      "renew": "2026-05-08"
-    },
+    "profileImage": "/profilepictures/clown.png",
     "subscriptions": [
       {
         "id": 2010,
-        "type": "Annual",
+        "type": "Monthly",
         "vehicle_id": 1010
       }
     ],
     "vehicles": [
       {
         "id": 1010,
-        "make": "Toyota",
-        "model": "F-150",
-        "color": "DarkViolet",
+        "make": "Pacheco-Smith",
+        "model": "Sure",
+        "color": "DimGray",
         "plate": "PLT-1010",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4010,
-        "type": "Interior Cleaning",
-        "date": "2025-05-10",
-        "amount": 64.78,
-        "card": 3010,
-        "location": "Lake Michael Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3010,
-      "name": "William Young",
-      "address": "91798 Kevin Trafficway",
-      "city": "Lake Michael",
-      "state": "LA",
-      "zip": 10307,
-      "country": "USA",
-      "card_number": 4111111111113286,
-      "cvv": 730,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 11,
-    "name": "Shane Jacobs",
-    "email": "shane.jacobs78@example.com",
-    "phone": "(123)687-8909x604",
-    "status": "overdue",
-    "membership": {
-      "id": 5011,
-      "type": "Gold",
-      "start": "2025-01-29",
-      "renew": "2026-01-29"
-    },
-    "subscriptions": [
-      {
-        "id": 2011,
-        "type": "Monthly",
-        "vehicle_id": 1011
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1011,
-        "make": "Chevrolet",
-        "model": "F-150",
-        "color": "NavajoWhite",
-        "plate": "PLT-1011",
-        "image": "https://example.com/car-1.jpg",
+        "image": "/cars/sports.png",
         "subscription": "Monthly"
       }
     ],
     "purchases": [
       {
-        "id": 4011,
-        "type": "Detailing",
-        "date": "2025-01-31",
-        "amount": 48.03,
-        "card": 3011,
-        "location": "Theresamouth Car Wash"
+        "id": 4001,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 17.56,
+        "card": 3001,
+        "location": "Henderson, Ramirez and Lewis Car Wash"
       }
     ],
     "card": {
-      "id": 3011,
-      "name": "Shane Jacobs",
-      "address": "398 Thompson Ville Apt. 829",
-      "city": "Theresamouth",
-      "state": "SD",
-      "zip": 11373,
+      "id": 3001,
+      "name": "Allison Hill",
+      "address": "16155 Roman Stream Suite 816",
+      "city": "New Kellystad",
+      "state": "ID",
+      "zip": 92850,
       "country": "USA",
-      "card_number": 4111111111116136,
-      "cvv": 298,
-      "exp_date": "12/26"
+      "card_number": 5234131647525534,
+      "cvv": 419,
+      "exp_date": "05/28"
     }
   },
   {
-    "id": 12,
-    "name": "Craig Burnett",
-    "email": "craig.burnett24@example.com",
-    "phone": "001-697-536-1362x2101",
-    "status": "overdue",
+    "id": 2,
+    "name": "Danielle Ford",
+    "email": "gabriellecameron@gmail.com",
+    "phone": "056.413.9537",
+    "status": "active",
     "membership": {
-      "id": 5012,
+      "id": 5002,
       "type": "Elite",
-      "start": "2025-01-17",
-      "renew": "2026-01-17"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
-    "subscriptions": [
-      {
-        "id": 2012,
-        "type": "Monthly",
-        "vehicle_id": 1012
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1012,
-        "make": "Chevrolet",
-        "model": "Model 3",
-        "color": "Black",
-        "plate": "PLT-1012",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Monthly"
-      }
-    ],
+    "profileImage": "/profilepictures/starbucks.png",
+    "subscriptions": [],
+    "vehicles": [],
     "purchases": [
       {
-        "id": 4012,
-        "type": "Interior Cleaning",
-        "date": "2025-01-19",
-        "amount": 46.9,
-        "card": 3012,
-        "location": "Tammyville Car Wash"
+        "id": 4002,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 15.74,
+        "card": 3002,
+        "location": "Wilkerson-Day Car Wash"
       }
     ],
     "card": {
-      "id": 3012,
-      "name": "Craig Burnett",
-      "address": "14735 Cheryl Fort Suite 809",
-      "city": "Tammyville",
-      "state": "CA",
-      "zip": 80453,
+      "id": 3002,
+      "name": "Danielle Ford",
+      "address": "2388 Burgess Meadow",
+      "city": "Coxberg",
+      "state": "NM",
+      "zip": 12416,
       "country": "USA",
-      "card_number": 4111111111117019,
-      "cvv": 551,
-      "exp_date": "12/26"
+      "card_number": 502022691666,
+      "cvv": 784,
+      "exp_date": "11/34"
     }
   },
   {
-    "id": 13,
-    "name": "Elizabeth Robinson",
-    "email": "elizabeth.robinson77@example.com",
-    "phone": "785-203-4485",
+    "id": 3,
+    "name": "Alexandra Le",
+    "email": "daniel62@yahoo.com",
+    "phone": "4828148932",
     "status": "active",
     "membership": {
-      "id": 5013,
+      "id": 5003,
       "type": "Silver",
-      "start": "2025-01-03",
-      "renew": "2026-01-03"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
-    "subscriptions": [
-      {
-        "id": 2013,
-        "type": "Monthly",
-        "vehicle_id": 1013
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1013,
-        "make": "Ford",
-        "model": "Model 3",
-        "color": "FireBrick",
-        "plate": "PLT-1013",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4013,
-        "type": "Interior Cleaning",
-        "date": "2025-01-05",
-        "amount": 52.14,
-        "card": 3013,
-        "location": "Adamsborough Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3013,
-      "name": "Elizabeth Robinson",
-      "address": "4780 Davis Crossroad",
-      "city": "Adamsborough",
-      "state": "TN",
-      "zip": 68833,
-      "country": "USA",
-      "card_number": 4111111111117260,
-      "cvv": 492,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 14,
-    "name": "Robin Ramirez",
-    "email": "robin.ramirez12@example.com",
-    "phone": "935-119-7104x5068",
-    "status": "overdue",
-    "membership": {
-      "id": 5014,
-      "type": "Elite",
-      "start": "2025-04-16",
-      "renew": "2026-04-16"
-    },
-    "subscriptions": [
-      {
-        "id": 2014,
-        "type": "Annual",
-        "vehicle_id": 1014
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1014,
-        "make": "Honda",
-        "model": "Impala",
-        "color": "Gray",
-        "plate": "PLT-1014",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4014,
-        "type": "Car Wash",
-        "date": "2025-04-18",
-        "amount": 40.07,
-        "card": 3014,
-        "location": "Port Vanessaberg Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3014,
-      "name": "Robin Ramirez",
-      "address": "5357 Shawn Lakes Apt. 268",
-      "city": "Port Vanessaberg",
-      "state": "DC",
-      "zip": 32601,
-      "country": "USA",
-      "card_number": 4111111111115964,
-      "cvv": 434,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 15,
-    "name": "Casey Strickland",
-    "email": "casey.strickland96@example.com",
-    "phone": "830.718.0529",
-    "status": "overdue",
-    "membership": {
-      "id": 5015,
-      "type": "Silver",
-      "start": "2025-01-27",
-      "renew": "2026-01-27"
-    },
-    "subscriptions": [
-      {
-        "id": 2015,
-        "type": "Monthly",
-        "vehicle_id": 1015
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1015,
-        "make": "Tesla",
-        "model": "X5",
-        "color": "Coral",
-        "plate": "PLT-1015",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4015,
-        "type": "Waxing",
-        "date": "2025-01-29",
-        "amount": 42.24,
-        "card": 3015,
-        "location": "North Larrytown Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3015,
-      "name": "Casey Strickland",
-      "address": "3399 Michael Forge",
-      "city": "North Larrytown",
-      "state": "NJ",
-      "zip": 76514,
-      "country": "USA",
-      "card_number": 4111111111117313,
-      "cvv": 324,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 16,
-    "name": "Pamela Smith",
-    "email": "pamela.smith14@example.com",
-    "phone": "(736)842-7654x434",
-    "status": "overdue",
-    "membership": {
-      "id": 5016,
-      "type": "Gold",
-      "start": "2025-06-01",
-      "renew": "2026-06-01"
-    },
-    "subscriptions": [
-      {
-        "id": 2016,
-        "type": "Monthly",
-        "vehicle_id": 1016
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1016,
-        "make": "Toyota",
-        "model": "Impala",
-        "color": "FireBrick",
-        "plate": "PLT-1016",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4016,
-        "type": "Waxing",
-        "date": "2025-06-03",
-        "amount": 52.82,
-        "card": 3016,
-        "location": "Romeroton Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3016,
-      "name": "Pamela Smith",
-      "address": "610 Peterson Shoals",
-      "city": "Romeroton",
-      "state": "MT",
-      "zip": 28075,
-      "country": "USA",
-      "card_number": 4111111111119418,
-      "cvv": 774,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 17,
-    "name": "Heidi Villegas",
-    "email": "heidi.villegas74@example.com",
-    "phone": "(749)062-2235",
-    "status": "active",
-    "membership": {
-      "id": 5017,
-      "type": "Gold",
-      "start": "2025-04-17",
-      "renew": "2026-04-17"
-    },
-    "subscriptions": [
-      {
-        "id": 2017,
-        "type": "Monthly",
-        "vehicle_id": 1017
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1017,
-        "make": "BMW",
-        "model": "Impala",
-        "color": "Turquoise",
-        "plate": "PLT-1017",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4017,
-        "type": "Car Wash",
-        "date": "2025-04-19",
-        "amount": 38.42,
-        "card": 3017,
-        "location": "Wrightland Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3017,
-      "name": "Heidi Villegas",
-      "address": "022 Karen Meadows Suite 255",
-      "city": "Wrightland",
-      "state": "NE",
-      "zip": 32337,
-      "country": "USA",
-      "card_number": 4111111111118323,
-      "cvv": 712,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 18,
-    "name": "Monica Kelly",
-    "email": "monica.kelly49@example.com",
-    "phone": "000.114.8037x5387",
-    "status": "active",
-    "membership": {
-      "id": 5018,
-      "type": "Elite",
-      "start": "2025-04-06",
-      "renew": "2026-04-06"
-    },
-    "subscriptions": [
-      {
-        "id": 2018,
-        "type": "Annual",
-        "vehicle_id": 1018
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1018,
-        "make": "Chevrolet",
-        "model": "Altima",
-        "color": "DarkGray",
-        "plate": "PLT-1018",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4018,
-        "type": "Car Wash",
-        "date": "2025-04-08",
-        "amount": 19.99,
-        "card": 3018,
-        "location": "Lake Jeffrey Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3018,
-      "name": "Monica Kelly",
-      "address": "173 Stephanie Knoll",
-      "city": "Lake Jeffrey",
-      "state": "TN",
-      "zip": 88460,
-      "country": "USA",
-      "card_number": 4111111111112116,
-      "cvv": 156,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 19,
-    "name": "Shirley Lloyd",
-    "email": "shirley.lloyd96@example.com",
-    "phone": "7696282584",
-    "status": "active",
-    "membership": {
-      "id": 5019,
-      "type": "Gold",
-      "start": "2025-05-09",
-      "renew": "2026-05-09"
-    },
-    "subscriptions": [
-      {
-        "id": 2019,
-        "type": "Monthly",
-        "vehicle_id": 1019
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1019,
-        "make": "Toyota",
-        "model": "Civic",
-        "color": "DeepPink",
-        "plate": "PLT-1019",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4019,
-        "type": "Interior Cleaning",
-        "date": "2025-05-11",
-        "amount": 61.39,
-        "card": 3019,
-        "location": "Michaelburgh Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3019,
-      "name": "Shirley Lloyd",
-      "address": "7574 Curry Forge Suite 106",
-      "city": "Michaelburgh",
-      "state": "WA",
-      "zip": 45376,
-      "country": "USA",
-      "card_number": 4111111111118450,
-      "cvv": 189,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 20,
-    "name": "Kenneth Mullins",
-    "email": "kenneth.mullins60@example.com",
-    "phone": "004.409.2187",
-    "status": "overdue",
-    "membership": {
-      "id": 5020,
-      "type": "Silver",
-      "start": "2025-05-04",
-      "renew": "2026-05-04"
-    },
-    "subscriptions": [
-      {
-        "id": 2020,
-        "type": "Annual",
-        "vehicle_id": 1020
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1020,
-        "make": "Nissan",
-        "model": "X5",
-        "color": "Lavender",
-        "plate": "PLT-1020",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4020,
-        "type": "Waxing",
-        "date": "2025-05-06",
-        "amount": 49.36,
-        "card": 3020,
-        "location": "South Joseview Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3020,
-      "name": "Kenneth Mullins",
-      "address": "6328 Diana Extensions",
-      "city": "South Joseview",
-      "state": "MS",
-      "zip": 87262,
-      "country": "USA",
-      "card_number": 4111111111116157,
-      "cvv": 911,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 21,
-    "name": "John Simmons",
-    "email": "john.simmons29@example.com",
-    "phone": "317.664.6966",
-    "status": "active",
-    "membership": {
-      "id": 5021,
-      "type": "Basic",
-      "start": "2025-01-01",
-      "renew": "2026-01-01"
-    },
-    "subscriptions": [
-      {
-        "id": 2021,
-        "type": "Annual",
-        "vehicle_id": 1021
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1021,
-        "make": "BMW",
-        "model": "X5",
-        "color": "Moccasin",
-        "plate": "PLT-1021",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4021,
-        "type": "Interior Cleaning",
-        "date": "2025-01-03",
-        "amount": 23.06,
-        "card": 3021,
-        "location": "North John Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3021,
-      "name": "John Simmons",
-      "address": "50630 Jose Lodge Suite 468",
-      "city": "North John",
-      "state": "AL",
-      "zip": 11914,
-      "country": "USA",
-      "card_number": 4111111111113968,
-      "cvv": 414,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 22,
-    "name": "Antonio Martinez",
-    "email": "antonio.martinez79@example.com",
-    "phone": "001-559-707-7536x216",
-    "status": "overdue",
-    "membership": {
-      "id": 5022,
-      "type": "Basic",
-      "start": "2025-04-15",
-      "renew": "2026-04-15"
-    },
-    "subscriptions": [
-      {
-        "id": 2022,
-        "type": "Annual",
-        "vehicle_id": 1022
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1022,
-        "make": "Ford",
-        "model": "Camry",
-        "color": "ForestGreen",
-        "plate": "PLT-1022",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4022,
-        "type": "Waxing",
-        "date": "2025-04-17",
-        "amount": 23.72,
-        "card": 3022,
-        "location": "Sandrachester Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3022,
-      "name": "Antonio Martinez",
-      "address": "59780 Joel Ways Suite 792",
-      "city": "Sandrachester",
-      "state": "NE",
-      "zip": 35160,
-      "country": "USA",
-      "card_number": 4111111111115966,
-      "cvv": 891,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 23,
-    "name": "Shane Green",
-    "email": "shane.green47@example.com",
-    "phone": "+1-473-188-5576x7979",
-    "status": "overdue",
-    "membership": {
-      "id": 5023,
-      "type": "Platinum",
-      "start": "2024-12-21",
-      "renew": "2025-12-21"
-    },
-    "subscriptions": [
-      {
-        "id": 2023,
-        "type": "Annual",
-        "vehicle_id": 1023
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1023,
-        "make": "Honda",
-        "model": "Civic",
-        "color": "IndianRed",
-        "plate": "PLT-1023",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4023,
-        "type": "Car Wash",
-        "date": "2024-12-23",
-        "amount": 67.86,
-        "card": 3023,
-        "location": "Grayberg Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3023,
-      "name": "Shane Green",
-      "address": "468 Faulkner Walks Apt. 464",
-      "city": "Grayberg",
-      "state": "NC",
-      "zip": 75856,
-      "country": "USA",
-      "card_number": 4111111111117027,
-      "cvv": 981,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 24,
-    "name": "Joseph Schneider",
-    "email": "joseph.schneider35@example.com",
-    "phone": "(585)944-0829x44234",
-    "status": "overdue",
-    "membership": {
-      "id": 5024,
-      "type": "Basic",
-      "start": "2025-03-04",
-      "renew": "2026-03-04"
-    },
-    "subscriptions": [
-      {
-        "id": 2024,
-        "type": "Annual",
-        "vehicle_id": 1024
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1024,
-        "make": "Nissan",
-        "model": "Civic",
-        "color": "Sienna",
-        "plate": "PLT-1024",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4024,
-        "type": "Waxing",
-        "date": "2025-03-06",
-        "amount": 25.36,
-        "card": 3024,
-        "location": "Tinaton Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3024,
-      "name": "Joseph Schneider",
-      "address": "74475 Suarez Oval",
-      "city": "Tinaton",
-      "state": "DE",
-      "zip": 59855,
-      "country": "USA",
-      "card_number": 4111111111115263,
-      "cvv": 983,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 25,
-    "name": "Samuel Cook",
-    "email": "samuel.cook63@example.com",
-    "phone": "001-651-948-3684x79779",
-    "status": "active",
-    "membership": {
-      "id": 5025,
-      "type": "Basic",
-      "start": "2025-03-25",
-      "renew": "2026-03-25"
-    },
-    "subscriptions": [
-      {
-        "id": 2025,
-        "type": "Annual",
-        "vehicle_id": 1025
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1025,
-        "make": "Nissan",
-        "model": "Altima",
-        "color": "Teal",
-        "plate": "PLT-1025",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4025,
-        "type": "Car Wash",
-        "date": "2025-03-27",
-        "amount": 52.15,
-        "card": 3025,
-        "location": "North Oscar Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3025,
-      "name": "Samuel Cook",
-      "address": "484 Schwartz Villages Apt. 720",
-      "city": "North Oscar",
-      "state": "WI",
-      "zip": 11565,
-      "country": "USA",
-      "card_number": 4111111111112770,
-      "cvv": 927,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 26,
-    "name": "Danny Peterson",
-    "email": "danny.peterson49@example.com",
-    "phone": "(517)301-8890",
-    "status": "overdue",
-    "membership": {
-      "id": 5026,
-      "type": "Basic",
-      "start": "2025-01-27",
-      "renew": "2026-01-27"
-    },
-    "subscriptions": [
-      {
-        "id": 2026,
-        "type": "Annual",
-        "vehicle_id": 1026
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1026,
-        "make": "Ford",
-        "model": "Impala",
-        "color": "DarkSlateGray",
-        "plate": "PLT-1026",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4026,
-        "type": "Waxing",
-        "date": "2025-01-29",
-        "amount": 74.28,
-        "card": 3026,
-        "location": "Martinezbury Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3026,
-      "name": "Danny Peterson",
-      "address": "79784 Booker Meadows Apt. 705",
-      "city": "Martinezbury",
-      "state": "KS",
-      "zip": 15713,
-      "country": "USA",
-      "card_number": 4111111111119308,
-      "cvv": 687,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 27,
-    "name": "Kaitlyn Hall",
-    "email": "kaitlyn.hall38@example.com",
-    "phone": "180.944.1295",
-    "status": "overdue",
-    "membership": {
-      "id": 5027,
-      "type": "Platinum",
-      "start": "2025-03-27",
-      "renew": "2026-03-27"
-    },
-    "subscriptions": [
-      {
-        "id": 2027,
-        "type": "Monthly",
-        "vehicle_id": 1027
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1027,
-        "make": "Chevrolet",
-        "model": "Model 3",
-        "color": "Cyan",
-        "plate": "PLT-1027",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4027,
-        "type": "Waxing",
-        "date": "2025-03-29",
-        "amount": 17.98,
-        "card": 3027,
-        "location": "Adamside Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3027,
-      "name": "Kaitlyn Hall",
-      "address": "51046 Kimberly Ports",
-      "city": "Adamside",
-      "state": "SD",
-      "zip": 18992,
-      "country": "USA",
-      "card_number": 4111111111112056,
-      "cvv": 896,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 28,
-    "name": "Christopher King",
-    "email": "christopher.king46@example.com",
-    "phone": "001-726-054-2608x740",
-    "status": "active",
-    "membership": {
-      "id": 5028,
-      "type": "Silver",
-      "start": "2024-12-04",
-      "renew": "2025-12-04"
-    },
-    "subscriptions": [
-      {
-        "id": 2028,
-        "type": "Annual",
-        "vehicle_id": 1028
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1028,
-        "make": "Toyota",
-        "model": "Impala",
-        "color": "Linen",
-        "plate": "PLT-1028",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4028,
-        "type": "Detailing",
-        "date": "2024-12-06",
-        "amount": 29.57,
-        "card": 3028,
-        "location": "Garyfurt Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3028,
-      "name": "Christopher King",
-      "address": "23219 Clark Prairie Suite 288",
-      "city": "Garyfurt",
-      "state": "LA",
-      "zip": 99514,
-      "country": "USA",
-      "card_number": 4111111111118483,
-      "cvv": 389,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 29,
-    "name": "Vickie Rodriguez",
-    "email": "vickie.rodriguez22@example.com",
-    "phone": "001-129-875-0138x251",
-    "status": "overdue",
-    "membership": {
-      "id": 5029,
-      "type": "Gold",
-      "start": "2025-02-12",
-      "renew": "2026-02-12"
-    },
-    "subscriptions": [
-      {
-        "id": 2029,
-        "type": "Annual",
-        "vehicle_id": 1029
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1029,
-        "make": "Chevrolet",
-        "model": "X5",
-        "color": "DarkTurquoise",
-        "plate": "PLT-1029",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4029,
-        "type": "Waxing",
-        "date": "2025-02-14",
-        "amount": 22.57,
-        "card": 3029,
-        "location": "Brownfurt Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3029,
-      "name": "Vickie Rodriguez",
-      "address": "732 Contreras Heights Apt. 833",
-      "city": "Brownfurt",
-      "state": "MD",
-      "zip": 50501,
-      "country": "USA",
-      "card_number": 4111111111111674,
-      "cvv": 939,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 30,
-    "name": "Brian Hale",
-    "email": "brian.hale90@example.com",
-    "phone": "772-565-0077",
-    "status": "overdue",
-    "membership": {
-      "id": 5030,
-      "type": "Elite",
-      "start": "2025-05-21",
-      "renew": "2026-05-21"
-    },
-    "subscriptions": [
-      {
-        "id": 2030,
-        "type": "Monthly",
-        "vehicle_id": 1030
-      }
-    ],
+    "profileImage": "/profilepictures/lunar.jpg",
+    "subscriptions": [],
     "vehicles": [
       {
         "id": 1030,
-        "make": "Tesla",
-        "model": "Camry",
-        "color": "DarkMagenta",
+        "make": "Farmer-Ryan",
+        "model": "Start",
+        "color": "Wheat",
         "plate": "PLT-1030",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Monthly"
+        "image": "/cars/audi.png",
+        "subscription": ""
       }
     ],
     "purchases": [
       {
-        "id": 4030,
-        "type": "Waxing",
-        "date": "2025-05-23",
-        "amount": 51.23,
-        "card": 3030,
-        "location": "New Sarahton Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3030,
-      "name": "Brian Hale",
-      "address": "869 Reed Street Suite 103",
-      "city": "New Sarahton",
-      "state": "KY",
-      "zip": 57210,
-      "country": "USA",
-      "card_number": 4111111111119647,
-      "cvv": 291,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 31,
-    "name": "Jessica Ortega",
-    "email": "jessica.ortega23@example.com",
-    "phone": "283-189-1218x0751",
-    "status": "overdue",
-    "membership": {
-      "id": 5031,
-      "type": "Elite",
-      "start": "2025-02-07",
-      "renew": "2026-02-07"
-    },
-    "subscriptions": [
-      {
-        "id": 2031,
-        "type": "Monthly",
-        "vehicle_id": 1031
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1031,
-        "make": "BMW",
-        "model": "Model 3",
-        "color": "DarkRed",
-        "plate": "PLT-1031",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4031,
-        "type": "Waxing",
-        "date": "2025-02-09",
-        "amount": 78.08,
-        "card": 3031,
-        "location": "East Patrickchester Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3031,
-      "name": "Jessica Ortega",
-      "address": "6348 Angela Plain Apt. 930",
-      "city": "East Patrickchester",
-      "state": "SC",
-      "zip": 82236,
-      "country": "USA",
-      "card_number": 4111111111116028,
-      "cvv": 162,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 32,
-    "name": "Wendy Mcfarland",
-    "email": "wendy.mcfarland56@example.com",
-    "phone": "623.354.6577x400",
-    "status": "active",
-    "membership": {
-      "id": 5032,
-      "type": "Basic",
-      "start": "2024-12-10",
-      "renew": "2025-12-10"
-    },
-    "subscriptions": [
-      {
-        "id": 2032,
-        "type": "Annual",
-        "vehicle_id": 1032
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1032,
-        "make": "Ford",
-        "model": "Altima",
-        "color": "WhiteSmoke",
-        "plate": "PLT-1032",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4032,
+        "id": 4003,
         "type": "Car Wash",
-        "date": "2024-12-12",
-        "amount": 72.09,
-        "card": 3032,
-        "location": "Stewartfurt Car Wash"
+        "date": "2025-04-27",
+        "amount": 26.23,
+        "card": 3003,
+        "location": "George Group Car Wash"
       }
     ],
     "card": {
-      "id": 3032,
-      "name": "Wendy Mcfarland",
-      "address": "39291 Jensen Plains",
-      "city": "Stewartfurt",
-      "state": "ID",
-      "zip": 16293,
+      "id": 3003,
+      "name": "Alexandra Le",
+      "address": "54303 Christopher Oval",
+      "city": "Port Amandaberg",
+      "state": "TN",
+      "zip": 62797,
       "country": "USA",
-      "card_number": 4111111111113673,
-      "cvv": 920,
-      "exp_date": "12/26"
+      "card_number": 213148963834650,
+      "cvv": 871,
+      "exp_date": "08/29"
     }
   },
   {
-    "id": 33,
-    "name": "Daniel Klein",
-    "email": "daniel.klein51@example.com",
-    "phone": "252-015-6262x09150",
-    "status": "active",
+    "id": 4,
+    "name": "George Chapman",
+    "email": "adrianzimmerman@perez.com",
+    "phone": "834-738-2997",
+    "status": "inactive",
     "membership": {
-      "id": 5033,
-      "type": "Silver",
-      "start": "2025-01-02",
-      "renew": "2026-01-02"
-    },
-    "subscriptions": [
-      {
-        "id": 2033,
-        "type": "Annual",
-        "vehicle_id": 1033
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1033,
-        "make": "Chevrolet",
-        "model": "X5",
-        "color": "Teal",
-        "plate": "PLT-1033",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4033,
-        "type": "Detailing",
-        "date": "2025-01-04",
-        "amount": 52.53,
-        "card": 3033,
-        "location": "Harrisfort Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3033,
-      "name": "Daniel Klein",
-      "address": "891 Brandon Passage",
-      "city": "Harrisfort",
-      "state": "RI",
-      "zip": 48095,
-      "country": "USA",
-      "card_number": 4111111111111578,
-      "cvv": 516,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 34,
-    "name": "Manuel Jensen",
-    "email": "manuel.jensen43@example.com",
-    "phone": "144.414.2842x9590",
-    "status": "overdue",
-    "membership": {
-      "id": 5034,
-      "type": "Elite",
-      "start": "2025-05-18",
-      "renew": "2026-05-18"
-    },
-    "subscriptions": [
-      {
-        "id": 2034,
-        "type": "Annual",
-        "vehicle_id": 1034
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1034,
-        "make": "BMW",
-        "model": "A4",
-        "color": "MediumPurple",
-        "plate": "PLT-1034",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4034,
-        "type": "Detailing",
-        "date": "2025-05-20",
-        "amount": 28.87,
-        "card": 3034,
-        "location": "Floresfurt Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3034,
-      "name": "Manuel Jensen",
-      "address": "2001 Julia Loop",
-      "city": "Floresfurt",
-      "state": "WV",
-      "zip": 36397,
-      "country": "USA",
-      "card_number": 4111111111118159,
-      "cvv": 209,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 35,
-    "name": "Matthew Sanchez",
-    "email": "matthew.sanchez59@example.com",
-    "phone": "8129494850",
-    "status": "overdue",
-    "membership": {
-      "id": 5035,
-      "type": "Platinum",
-      "start": "2025-01-21",
-      "renew": "2026-01-21"
-    },
-    "subscriptions": [
-      {
-        "id": 2035,
-        "type": "Monthly",
-        "vehicle_id": 1035
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1035,
-        "make": "Tesla",
-        "model": "Impala",
-        "color": "MediumVioletRed",
-        "plate": "PLT-1035",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4035,
-        "type": "Waxing",
-        "date": "2025-01-23",
-        "amount": 43.41,
-        "card": 3035,
-        "location": "Gonzaleshaven Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3035,
-      "name": "Matthew Sanchez",
-      "address": "39754 Amanda Trace Suite 603",
-      "city": "Gonzaleshaven",
-      "state": "WA",
-      "zip": 71909,
-      "country": "USA",
-      "card_number": 4111111111117004,
-      "cvv": 150,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 36,
-    "name": "Lawrence Weaver",
-    "email": "lawrence.weaver63@example.com",
-    "phone": "873-913-6403",
-    "status": "overdue",
-    "membership": {
-      "id": 5036,
-      "type": "Basic",
-      "start": "2025-04-26",
-      "renew": "2026-04-26"
-    },
-    "subscriptions": [
-      {
-        "id": 2036,
-        "type": "Annual",
-        "vehicle_id": 1036
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1036,
-        "make": "Chevrolet",
-        "model": "Civic",
-        "color": "BlanchedAlmond",
-        "plate": "PLT-1036",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4036,
-        "type": "Interior Cleaning",
-        "date": "2025-04-28",
-        "amount": 60.21,
-        "card": 3036,
-        "location": "Carrollside Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3036,
-      "name": "Lawrence Weaver",
-      "address": "526 John Expressway Suite 245",
-      "city": "Carrollside",
-      "state": "NV",
-      "zip": 65644,
-      "country": "USA",
-      "card_number": 4111111111113091,
-      "cvv": 797,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 37,
-    "name": "Mercedes Bennett",
-    "email": "mercedes.bennett69@example.com",
-    "phone": "631.678.8414x995",
-    "status": "overdue",
-    "membership": {
-      "id": 5037,
+      "id": 5004,
       "type": "Gold",
-      "start": "2025-04-27",
-      "renew": "2026-04-27"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
-    "subscriptions": [
-      {
-        "id": 2037,
-        "type": "Monthly",
-        "vehicle_id": 1037
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1037,
-        "make": "Audi",
-        "model": "Camry",
-        "color": "LightGoldenRodYellow",
-        "plate": "PLT-1037",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4037,
-        "type": "Detailing",
-        "date": "2025-04-29",
-        "amount": 24.52,
-        "card": 3037,
-        "location": "Lake Deborahstad Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3037,
-      "name": "Mercedes Bennett",
-      "address": "001 Tammie Locks Apt. 736",
-      "city": "Lake Deborahstad",
-      "state": "NE",
-      "zip": 65866,
-      "country": "USA",
-      "card_number": 4111111111114202,
-      "cvv": 884,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 38,
-    "name": "Dr. Brandon Hancock",
-    "email": "dr..hancock57@example.com",
-    "phone": "(674)958-9481x126",
-    "status": "overdue",
-    "membership": {
-      "id": 5038,
-      "type": "Silver",
-      "start": "2025-03-19",
-      "renew": "2026-03-19"
-    },
-    "subscriptions": [
-      {
-        "id": 2038,
-        "type": "Monthly",
-        "vehicle_id": 1038
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1038,
-        "make": "Ford",
-        "model": "Altima",
-        "color": "MediumSeaGreen",
-        "plate": "PLT-1038",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4038,
-        "type": "Detailing",
-        "date": "2025-03-21",
-        "amount": 78.45,
-        "card": 3038,
-        "location": "Peterfort Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3038,
-      "name": "Dr. Brandon Hancock",
-      "address": "6460 Carol Keys Apt. 402",
-      "city": "Peterfort",
-      "state": "OR",
-      "zip": 48800,
-      "country": "USA",
-      "card_number": 4111111111116231,
-      "cvv": 610,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 39,
-    "name": "Erika Rivera",
-    "email": "erika.rivera58@example.com",
-    "phone": "648-020-2862x01149",
-    "status": "active",
-    "membership": {
-      "id": 5039,
-      "type": "Silver",
-      "start": "2025-03-08",
-      "renew": "2026-03-08"
-    },
-    "subscriptions": [
-      {
-        "id": 2039,
-        "type": "Annual",
-        "vehicle_id": 1039
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1039,
-        "make": "Audi",
-        "model": "Impala",
-        "color": "Cornsilk",
-        "plate": "PLT-1039",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4039,
-        "type": "Detailing",
-        "date": "2025-03-10",
-        "amount": 47.12,
-        "card": 3039,
-        "location": "Port Tom Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3039,
-      "name": "Erika Rivera",
-      "address": "693 Michael Roads",
-      "city": "Port Tom",
-      "state": "VA",
-      "zip": 48301,
-      "country": "USA",
-      "card_number": 4111111111115954,
-      "cvv": 529,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 40,
-    "name": "Michael Williams",
-    "email": "michael.williams27@example.com",
-    "phone": "+1-088-180-4134x068",
-    "status": "overdue",
-    "membership": {
-      "id": 5040,
-      "type": "Platinum",
-      "start": "2025-04-03",
-      "renew": "2026-04-03"
-    },
-    "subscriptions": [
-      {
-        "id": 2040,
-        "type": "Monthly",
-        "vehicle_id": 1040
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1040,
-        "make": "Ford",
-        "model": "X5",
-        "color": "Maroon",
-        "plate": "PLT-1040",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4040,
-        "type": "Interior Cleaning",
-        "date": "2025-04-05",
-        "amount": 18.05,
-        "card": 3040,
-        "location": "North Melissa Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3040,
-      "name": "Michael Williams",
-      "address": "83107 Miller Crossroad Apt. 991",
-      "city": "North Melissa",
-      "state": "NY",
-      "zip": 18231,
-      "country": "USA",
-      "card_number": 4111111111116943,
-      "cvv": 524,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 41,
-    "name": "Michael Nguyen",
-    "email": "michael.nguyen98@example.com",
-    "phone": "040-610-6009x216",
-    "status": "active",
-    "membership": {
-      "id": 5041,
-      "type": "Basic",
-      "start": "2025-03-18",
-      "renew": "2026-03-18"
-    },
+    "profileImage": "/profilepictures/clown.png",
     "subscriptions": [
       {
         "id": 2041,
-        "type": "Annual",
+        "type": "Monthly",
         "vehicle_id": 1041
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1041,
-        "make": "Audi",
-        "model": "A4",
-        "color": "MediumOrchid",
-        "plate": "PLT-1041",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4041,
-        "type": "Waxing",
-        "date": "2025-03-20",
-        "amount": 20.87,
-        "card": 3041,
-        "location": "North Robert Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3041,
-      "name": "Michael Nguyen",
-      "address": "705 Reyes Meadows Suite 640",
-      "city": "North Robert",
-      "state": "ND",
-      "zip": 71533,
-      "country": "USA",
-      "card_number": 4111111111111337,
-      "cvv": 871,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 42,
-    "name": "Samantha Schwartz",
-    "email": "samantha.schwartz71@example.com",
-    "phone": "231.963.6278x30409",
-    "status": "overdue",
-    "membership": {
-      "id": 5042,
-      "type": "Platinum",
-      "start": "2025-02-22",
-      "renew": "2026-02-22"
-    },
-    "subscriptions": [
+      },
       {
         "id": 2042,
         "type": "Monthly",
@@ -1995,725 +233,1431 @@ const customers: Customer[] = [
     ],
     "vehicles": [
       {
+        "id": 1040,
+        "make": "Mueller Group",
+        "model": "Customer",
+        "color": "DarkGray",
+        "plate": "PLT-1040",
+        "image": "/cars/dumb.png",
+        "subscription": ""
+      },
+      {
+        "id": 1041,
+        "make": "Hopkins LLC",
+        "model": "Land",
+        "color": "PaleVioletRed",
+        "plate": "PLT-1041",
+        "image": "/cars/dumb.png",
+        "subscription": "Monthly"
+      },
+      {
         "id": 1042,
-        "make": "Nissan",
-        "model": "Altima",
-        "color": "DarkTurquoise",
+        "make": "Shields-Brown",
+        "model": "Ready",
+        "color": "DarkGreen",
         "plate": "PLT-1042",
-        "image": "https://example.com/car-2.jpg",
+        "image": "/cars/dumb.png",
         "subscription": "Monthly"
       }
     ],
     "purchases": [
       {
-        "id": 4042,
+        "id": 4004,
         "type": "Car Wash",
-        "date": "2025-02-24",
-        "amount": 40.02,
-        "card": 3042,
-        "location": "West Amandaborough Car Wash"
+        "date": "2025-04-27",
+        "amount": 17.42,
+        "card": 3004,
+        "location": "Powell LLC Car Wash"
       }
     ],
     "card": {
-      "id": 3042,
-      "name": "Samantha Schwartz",
-      "address": "83033 Bradley Rapid Apt. 606",
-      "city": "West Amandaborough",
-      "state": "IL",
-      "zip": 72361,
+      "id": 3004,
+      "name": "George Chapman",
+      "address": "33872 White Mountain",
+      "city": "Port Sandra",
+      "state": "OH",
+      "zip": 13334,
       "country": "USA",
-      "card_number": 4111111111115380,
-      "cvv": 331,
-      "exp_date": "12/26"
+      "card_number": 676380132677,
+      "cvv": 360,
+      "exp_date": "03/28"
     }
   },
   {
-    "id": 43,
-    "name": "Kenneth Holmes",
-    "email": "kenneth.holmes46@example.com",
-    "phone": "(602)960-5781x489",
-    "status": "overdue",
+    "id": 5,
+    "name": "William Baker",
+    "email": "rodney87@gmail.com",
+    "phone": "430.980.5009",
+    "status": "inactive",
     "membership": {
-      "id": 5043,
-      "type": "Basic",
-      "start": "2025-02-16",
-      "renew": "2026-02-16"
-    },
-    "subscriptions": [
-      {
-        "id": 2043,
-        "type": "Annual",
-        "vehicle_id": 1043
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1043,
-        "make": "Honda",
-        "model": "Model 3",
-        "color": "DarkOrchid",
-        "plate": "PLT-1043",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4043,
-        "type": "Car Wash",
-        "date": "2025-02-18",
-        "amount": 36.95,
-        "card": 3043,
-        "location": "South Johnstad Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3043,
-      "name": "Kenneth Holmes",
-      "address": "28922 Butler Glens Apt. 419",
-      "city": "South Johnstad",
-      "state": "NH",
-      "zip": 45126,
-      "country": "USA",
-      "card_number": 4111111111115724,
-      "cvv": 275,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 44,
-    "name": "Jose Thomas",
-    "email": "jose.thomas47@example.com",
-    "phone": "(918)924-6279x8550",
-    "status": "overdue",
-    "membership": {
-      "id": 5044,
+      "id": 5005,
       "type": "Platinum",
-      "start": "2025-03-11",
-      "renew": "2026-03-11"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
-    "subscriptions": [
-      {
-        "id": 2044,
-        "type": "Annual",
-        "vehicle_id": 1044
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1044,
-        "make": "Honda",
-        "model": "A4",
-        "color": "Red",
-        "plate": "PLT-1044",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
-      }
-    ],
+    "profileImage": "/profilepictures/starbucks.png",
+    "subscriptions": [],
+    "vehicles": [],
     "purchases": [
       {
-        "id": 4044,
-        "type": "Detailing",
-        "date": "2025-03-13",
-        "amount": 65.22,
-        "card": 3044,
-        "location": "East Cassandra Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3044,
-      "name": "Jose Thomas",
-      "address": "65765 Donna Junction Suite 063",
-      "city": "East Cassandra",
-      "state": "RI",
-      "zip": 86881,
-      "country": "USA",
-      "card_number": 4111111111111264,
-      "cvv": 961,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 45,
-    "name": "Sarah Garner",
-    "email": "sarah.garner29@example.com",
-    "phone": "993-361-6688",
-    "status": "active",
-    "membership": {
-      "id": 5045,
-      "type": "Platinum",
-      "start": "2025-03-13",
-      "renew": "2026-03-13"
-    },
-    "subscriptions": [
-      {
-        "id": 2045,
-        "type": "Monthly",
-        "vehicle_id": 1045
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1045,
-        "make": "Audi",
-        "model": "Model 3",
-        "color": "OldLace",
-        "plate": "PLT-1045",
-        "image": "https://example.com/car-0.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4045,
-        "type": "Waxing",
-        "date": "2025-03-15",
-        "amount": 26.41,
-        "card": 3045,
-        "location": "East Laura Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3045,
-      "name": "Sarah Garner",
-      "address": "847 Shaw Forges Apt. 624",
-      "city": "East Laura",
-      "state": "RI",
-      "zip": 69589,
-      "country": "USA",
-      "card_number": 4111111111117595,
-      "cvv": 258,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 46,
-    "name": "Kayla Mccarty",
-    "email": "kayla.mccarty87@example.com",
-    "phone": "+1-217-399-5106x50397",
-    "status": "overdue",
-    "membership": {
-      "id": 5046,
-      "type": "Elite",
-      "start": "2024-12-08",
-      "renew": "2025-12-08"
-    },
-    "subscriptions": [
-      {
-        "id": 2046,
-        "type": "Monthly",
-        "vehicle_id": 1046
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1046,
-        "make": "Chevrolet",
-        "model": "Impala",
-        "color": "Blue",
-        "plate": "PLT-1046",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4046,
-        "type": "Interior Cleaning",
-        "date": "2024-12-10",
-        "amount": 59.34,
-        "card": 3046,
-        "location": "Blairbury Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3046,
-      "name": "Kayla Mccarty",
-      "address": "96589 Amber Walks",
-      "city": "Blairbury",
-      "state": "AR",
-      "zip": 78613,
-      "country": "USA",
-      "card_number": 4111111111118489,
-      "cvv": 670,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 47,
-    "name": "David Anderson",
-    "email": "david.anderson35@example.com",
-    "phone": "(656)114-5845x1390",
-    "status": "active",
-    "membership": {
-      "id": 5047,
-      "type": "Elite",
-      "start": "2024-12-19",
-      "renew": "2025-12-19"
-    },
-    "subscriptions": [
-      {
-        "id": 2047,
-        "type": "Annual",
-        "vehicle_id": 1047
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1047,
-        "make": "Honda",
-        "model": "Impala",
-        "color": "Plum",
-        "plate": "PLT-1047",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4047,
-        "type": "Interior Cleaning",
-        "date": "2024-12-21",
-        "amount": 24.1,
-        "card": 3047,
-        "location": "Ryanchester Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3047,
-      "name": "David Anderson",
-      "address": "85129 Elizabeth Brooks Suite 402",
-      "city": "Ryanchester",
-      "state": "NY",
-      "zip": 62110,
-      "country": "USA",
-      "card_number": 4111111111115380,
-      "cvv": 597,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 48,
-    "name": "Brittany Leon",
-    "email": "brittany.leon17@example.com",
-    "phone": "+1-699-254-7890x969",
-    "status": "overdue",
-    "membership": {
-      "id": 5048,
-      "type": "Basic",
-      "start": "2025-01-20",
-      "renew": "2026-01-20"
-    },
-    "subscriptions": [
-      {
-        "id": 2048,
-        "type": "Annual",
-        "vehicle_id": 1048
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1048,
-        "make": "Chevrolet",
-        "model": "Camry",
-        "color": "DarkOrange",
-        "plate": "PLT-1048",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4048,
+        "id": 4005,
         "type": "Car Wash",
-        "date": "2025-01-22",
-        "amount": 62.27,
-        "card": 3048,
-        "location": "Lake Mirandaton Car Wash"
+        "date": "2025-04-27",
+        "amount": 33.24,
+        "card": 3005,
+        "location": "Shaw-Farrell Car Wash"
       }
     ],
     "card": {
-      "id": 3048,
-      "name": "Brittany Leon",
-      "address": "6600 Rhonda Drives",
-      "city": "Lake Mirandaton",
-      "state": "ID",
-      "zip": 40360,
+      "id": 3005,
+      "name": "William Baker",
+      "address": "81219 Emma Freeway",
+      "city": "Wilsonshire",
+      "state": "OR",
+      "zip": 78425,
       "country": "USA",
-      "card_number": 4111111111116076,
-      "cvv": 191,
-      "exp_date": "12/26"
+      "card_number": 676216998549,
+      "cvv": 534,
+      "exp_date": "02/32"
     }
   },
   {
-    "id": 49,
-    "name": "Kelly Bailey",
-    "email": "kelly.bailey30@example.com",
-    "phone": "(549)619-6104x0122",
+    "id": 6,
+    "name": "Matthew Bryant",
+    "email": "ellisyolanda@jones.net",
+    "phone": "251-354-2784x980",
     "status": "active",
     "membership": {
-      "id": 5049,
+      "id": 5006,
+      "type": "Silver",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/old.jpg",
+    "subscriptions": [
+      {
+        "id": 2061,
+        "type": "Monthly",
+        "vehicle_id": 1061
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1060,
+        "make": "Montoya, Evans and Alvarado",
+        "model": "Wrong",
+        "color": "DarkSlateBlue",
+        "plate": "PLT-1060",
+        "image": "/cars/sports.png",
+        "subscription": ""
+      },
+      {
+        "id": 1061,
+        "make": "Wilson-Rodriguez",
+        "model": "On",
+        "color": "DeepSkyBlue",
+        "plate": "PLT-1061",
+        "image": "/cars/audi.png",
+        "subscription": "Monthly"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4006,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 31.53,
+        "card": 3006,
+        "location": "Campbell-Clark Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3006,
+      "name": "Matthew Bryant",
+      "address": "48740 Cynthia Village Suite 005",
+      "city": "Lake Tina",
+      "state": "WA",
+      "zip": 58413,
+      "country": "USA",
+      "card_number": 180080112805985,
+      "cvv": 620,
+      "exp_date": "09/30"
+    }
+  },
+  {
+    "id": 7,
+    "name": "Timothy Stanton",
+    "email": "jason31@deleon-henson.biz",
+    "phone": "+1-232-260-2563x421",
+    "status": "inactive",
+    "membership": {
+      "id": 5007,
       "type": "Gold",
-      "start": "2025-01-18",
-      "renew": "2026-01-18"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
-    "subscriptions": [
+    "profileImage": "/profilepictures/cs major.png",
+    "subscriptions": [],
+    "vehicles": [],
+    "purchases": [
       {
-        "id": 2049,
-        "type": "Annual",
-        "vehicle_id": 1049
+        "id": 4007,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 24.5,
+        "card": 3007,
+        "location": "Brennan-Garrison Car Wash"
       }
     ],
+    "card": {
+      "id": 3007,
+      "name": "Timothy Stanton",
+      "address": "75433 Donna Locks",
+      "city": "Joshualand",
+      "state": "KY",
+      "zip": 46526,
+      "country": "USA",
+      "card_number": 4850142940196556,
+      "cvv": 981,
+      "exp_date": "12/31"
+    }
+  },
+  {
+    "id": 8,
+    "name": "Cheryl Williams",
+    "email": "meyerlindsay@hotmail.com",
+    "phone": "001-356-159-5148x4656",
+    "status": "inactive",
+    "membership": {
+      "id": 5008,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/momo.png",
+    "subscriptions": [],
     "vehicles": [
       {
-        "id": 1049,
-        "make": "Ford",
-        "model": "Camry",
-        "color": "LightCoral",
-        "plate": "PLT-1049",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Annual"
+        "id": 1080,
+        "make": "Phillips, Martinez and Fisher",
+        "model": "Yard",
+        "color": "Olive",
+        "plate": "PLT-1080",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      },
+      {
+        "id": 1081,
+        "make": "Adkins, Thompson and Carroll",
+        "model": "Into",
+        "color": "AliceBlue",
+        "plate": "PLT-1081",
+        "image": "/cars/sports.png",
+        "subscription": ""
       }
     ],
     "purchases": [
       {
-        "id": 4049,
-        "type": "Waxing",
-        "date": "2025-01-20",
-        "amount": 25.56,
-        "card": 3049,
-        "location": "Harriston Car Wash"
+        "id": 4008,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 38.42,
+        "card": 3008,
+        "location": "Mitchell-Jordan Car Wash"
       }
     ],
     "card": {
-      "id": 3049,
-      "name": "Kelly Bailey",
-      "address": "90179 Thompson Lights",
-      "city": "Harriston",
-      "state": "SC",
-      "zip": 88551,
+      "id": 3008,
+      "name": "Cheryl Williams",
+      "address": "7738 Leon Underpass Apt. 148",
+      "city": "Clarencebury",
+      "state": "ME",
+      "zip": 29945,
       "country": "USA",
-      "card_number": 4111111111116869,
-      "cvv": 745,
-      "exp_date": "12/26"
+      "card_number": 4003791769367,
+      "cvv": 632,
+      "exp_date": "07/25"
     }
   },
   {
-    "id": 50,
-    "name": "George Baker",
-    "email": "george.baker21@example.com",
-    "phone": "165-845-2405x53080",
+    "id": 9,
+    "name": "Shannon Mcclure",
+    "email": "gregoryrubio@hotmail.com",
+    "phone": "083.172.7889x579",
     "status": "active",
     "membership": {
-      "id": 5050,
-      "type": "Basic",
-      "start": "2025-03-21",
-      "renew": "2026-03-21"
+      "id": 5009,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
+    "profileImage": "/profilepictures/starbucks.png",
     "subscriptions": [
       {
-        "id": 2050,
+        "id": 2090,
         "type": "Annual",
-        "vehicle_id": 1050
+        "vehicle_id": 1090
       }
     ],
     "vehicles": [
       {
-        "id": 1050,
-        "make": "BMW",
-        "model": "X5",
-        "color": "Moccasin",
-        "plate": "PLT-1050",
-        "image": "https://example.com/car-0.jpg",
+        "id": 1090,
+        "make": "Mcclain, Simmons and Meadows",
+        "model": "Like",
+        "color": "DimGray",
+        "plate": "PLT-1090",
+        "image": "/cars/dumb.png",
         "subscription": "Annual"
       }
     ],
     "purchases": [
       {
-        "id": 4050,
-        "type": "Interior Cleaning",
-        "date": "2025-03-23",
-        "amount": 75.41,
-        "card": 3050,
-        "location": "Reyesbury Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3050,
-      "name": "George Baker",
-      "address": "904 Johnson Crossroad Apt. 726",
-      "city": "Reyesbury",
-      "state": "AZ",
-      "zip": 78791,
-      "country": "USA",
-      "card_number": 4111111111119061,
-      "cvv": 646,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 51,
-    "name": "Michael Cooper",
-    "email": "michael.cooper19@example.com",
-    "phone": "186.182.6892x5874",
-    "status": "overdue",
-    "membership": {
-      "id": 5051,
-      "type": "Silver",
-      "start": "2025-04-18",
-      "renew": "2026-04-18"
-    },
-    "subscriptions": [
-      {
-        "id": 2051,
-        "type": "Monthly",
-        "vehicle_id": 1051
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1051,
-        "make": "Tesla",
-        "model": "Camry",
-        "color": "Silver",
-        "plate": "PLT-1051",
-        "image": "https://example.com/car-1.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4051,
+        "id": 4009,
         "type": "Car Wash",
-        "date": "2025-04-20",
-        "amount": 25.78,
-        "card": 3051,
-        "location": "Melindaton Car Wash"
+        "date": "2025-04-27",
+        "amount": 21.75,
+        "card": 3009,
+        "location": "Hensley, Cole and Walton Car Wash"
       }
     ],
     "card": {
-      "id": 3051,
-      "name": "Michael Cooper",
-      "address": "74066 Little Via Suite 850",
-      "city": "Melindaton",
+      "id": 3009,
+      "name": "Shannon Mcclure",
+      "address": "734 Jones Heights Apt. 455",
+      "city": "East Edwardfurt",
       "state": "FL",
-      "zip": 25999,
+      "zip": 93092,
       "country": "USA",
-      "card_number": 4111111111119024,
-      "cvv": 131,
-      "exp_date": "12/26"
+      "card_number": 4665876036696,
+      "cvv": 96,
+      "exp_date": "07/33"
     }
   },
   {
-    "id": 52,
-    "name": "Andrew Cline",
-    "email": "andrew.cline21@example.com",
-    "phone": "001-105-148-9643x15697",
+    "id": 10,
+    "name": "Guy Molina",
+    "email": "tracynelson@yahoo.com",
+    "phone": "6562729806",
     "status": "active",
     "membership": {
-      "id": 5052,
-      "type": "Platinum",
-      "start": "2025-01-24",
-      "renew": "2026-01-24"
-    },
-    "subscriptions": [
-      {
-        "id": 2052,
-        "type": "Monthly",
-        "vehicle_id": 1052
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1052,
-        "make": "BMW",
-        "model": "F-150",
-        "color": "LightGoldenRodYellow",
-        "plate": "PLT-1052",
-        "image": "https://example.com/car-2.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4052,
-        "type": "Detailing",
-        "date": "2025-01-26",
-        "amount": 52.55,
-        "card": 3052,
-        "location": "New Lance Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3052,
-      "name": "Andrew Cline",
-      "address": "5206 Dodson Tunnel Suite 622",
-      "city": "New Lance",
-      "state": "LA",
-      "zip": 46163,
-      "country": "USA",
-      "card_number": 4111111111119930,
-      "cvv": 155,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 53,
-    "name": "Michael Mcclain",
-    "email": "michael.mcclain10@example.com",
-    "phone": "+1-751-515-5804x245",
-    "status": "active",
-    "membership": {
-      "id": 5053,
-      "type": "Platinum",
-      "start": "2025-05-17",
-      "renew": "2026-05-17"
-    },
-    "subscriptions": [
-      {
-        "id": 2053,
-        "type": "Annual",
-        "vehicle_id": 1053
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1053,
-        "make": "Tesla",
-        "model": "Civic",
-        "color": "Chartreuse",
-        "plate": "PLT-1053",
-        "image": "https://example.com/car-3.jpg",
-        "subscription": "Annual"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4053,
-        "type": "Waxing",
-        "date": "2025-05-19",
-        "amount": 39.53,
-        "card": 3053,
-        "location": "New Seanfort Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3053,
-      "name": "Michael Mcclain",
-      "address": "493 Greene Forks Apt. 003",
-      "city": "New Seanfort",
-      "state": "NV",
-      "zip": 18361,
-      "country": "USA",
-      "card_number": 4111111111117499,
-      "cvv": 592,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 54,
-    "name": "Jacqueline Rogers",
-    "email": "jacqueline.rogers31@example.com",
-    "phone": "212-217-9713x8348",
-    "status": "active",
-    "membership": {
-      "id": 5054,
+      "id": 5010,
       "type": "Silver",
-      "start": "2025-01-06",
-      "renew": "2026-01-06"
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
     },
+    "profileImage": "/profilepictures/momo.png",
     "subscriptions": [
       {
-        "id": 2054,
-        "type": "Monthly",
-        "vehicle_id": 1054
-      }
-    ],
-    "vehicles": [
-      {
-        "id": 1054,
-        "make": "Tesla",
-        "model": "Model 3",
-        "color": "DarkRed",
-        "plate": "PLT-1054",
-        "image": "https://example.com/car-4.jpg",
-        "subscription": "Monthly"
-      }
-    ],
-    "purchases": [
-      {
-        "id": 4054,
-        "type": "Car Wash",
-        "date": "2025-01-08",
-        "amount": 22.76,
-        "card": 3054,
-        "location": "Zacharyfurt Car Wash"
-      }
-    ],
-    "card": {
-      "id": 3054,
-      "name": "Jacqueline Rogers",
-      "address": "00133 Jeanette Ville",
-      "city": "Zacharyfurt",
-      "state": "CT",
-      "zip": 83678,
-      "country": "USA",
-      "card_number": 4111111111114615,
-      "cvv": 964,
-      "exp_date": "12/26"
-    }
-  },
-  {
-    "id": 55,
-    "name": "Monica Rich",
-    "email": "monica.rich90@example.com",
-    "phone": "588.841.3535x944",
-    "status": "overdue",
-    "membership": {
-      "id": 5055,
-      "type": "Basic",
-      "start": "2025-05-25",
-      "renew": "2026-05-25"
-    },
-    "subscriptions": [
-      {
-        "id": 2055,
+        "id": 2100,
         "type": "Annual",
-        "vehicle_id": 1055
+        "vehicle_id": 1100
       }
     ],
     "vehicles": [
       {
-        "id": 1055,
-        "make": "Ford",
-        "model": "Model 3",
-        "color": "LavenderBlush",
-        "plate": "PLT-1055",
-        "image": "https://example.com/car-0.jpg",
+        "id": 1100,
+        "make": "Elliott, Johnson and Day",
+        "model": "Central",
+        "color": "SandyBrown",
+        "plate": "PLT-1100",
+        "image": "/cars/dumb.png",
         "subscription": "Annual"
       }
     ],
     "purchases": [
       {
-        "id": 4055,
+        "id": 4010,
         "type": "Car Wash",
-        "date": "2025-05-27",
-        "amount": 75.02,
-        "card": 3055,
-        "location": "West Robert Car Wash"
+        "date": "2025-04-27",
+        "amount": 21.69,
+        "card": 3010,
+        "location": "Williams Group Car Wash"
       }
     ],
     "card": {
-      "id": 3055,
-      "name": "Monica Rich",
-      "address": "733 Lopez Haven Apt. 265",
-      "city": "West Robert",
-      "state": "NM",
-      "zip": 39917,
+      "id": 3010,
+      "name": "Guy Molina",
+      "address": "75564 King Common Suite 080",
+      "city": "Jeffreyland",
+      "state": "SD",
+      "zip": 5777,
       "country": "USA",
-      "card_number": 4111111111114512,
-      "cvv": 397,
-      "exp_date": "12/26"
+      "card_number": 563092327193,
+      "cvv": 745,
+      "exp_date": "04/28"
+    }
+  },
+  {
+    "id": 11,
+    "name": "Tracey Higgins",
+    "email": "daniel04@byrd.com",
+    "phone": "931-491-9058",
+    "status": "active",
+    "membership": {
+      "id": 5011,
+      "type": "Platinum",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/starbucks.png",
+    "subscriptions": [],
+    "vehicles": [
+      {
+        "id": 1110,
+        "make": "Stanley-Jones",
+        "model": "Raise",
+        "color": "MediumSpringGreen",
+        "plate": "PLT-1110",
+        "image": "/cars/dumb.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4011,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 37.12,
+        "card": 3011,
+        "location": "Atkinson Group Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3011,
+      "name": "Tracey Higgins",
+      "address": "5726 Jessica Run",
+      "city": "Christinaside",
+      "state": "NJ",
+      "zip": 61432,
+      "country": "USA",
+      "card_number": 6553147379965079,
+      "cvv": 2735,
+      "exp_date": "10/29"
+    }
+  },
+  {
+    "id": 12,
+    "name": "Spencer Haynes",
+    "email": "blackjames@gmail.com",
+    "phone": "001-678-377-7014x3634",
+    "status": "inactive",
+    "membership": {
+      "id": 5012,
+      "type": "Platinum",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/luffy.png",
+    "subscriptions": [
+      {
+        "id": 2120,
+        "type": "Annual",
+        "vehicle_id": 1120
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1120,
+        "make": "Perkins, Kennedy and Schmidt",
+        "model": "Large",
+        "color": "MediumPurple",
+        "plate": "PLT-1120",
+        "image": "/cars/sports.png",
+        "subscription": "Annual"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4012,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 29.61,
+        "card": 3012,
+        "location": "Warner-Nelson Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3012,
+      "name": "Spencer Haynes",
+      "address": "13518 James Streets Suite 498",
+      "city": "Tinaborough",
+      "state": "IN",
+      "zip": 47802,
+      "country": "USA",
+      "card_number": 4082400842710944,
+      "cvv": 775,
+      "exp_date": "07/28"
+    }
+  },
+  {
+    "id": 13,
+    "name": "Dawn Hensley",
+    "email": "moralescharles@parks.com",
+    "phone": "318-699-9386",
+    "status": "inactive",
+    "membership": {
+      "id": 5013,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/momo.png",
+    "subscriptions": [],
+    "vehicles": [
+      {
+        "id": 1130,
+        "make": "Kerr-Evans",
+        "model": "Per",
+        "color": "Pink",
+        "plate": "PLT-1130",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4013,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 33.89,
+        "card": 3013,
+        "location": "Carroll-Brown Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3013,
+      "name": "Dawn Hensley",
+      "address": "34123 Andrea Estate",
+      "city": "South Shannonfort",
+      "state": "AZ",
+      "zip": 30841,
+      "country": "USA",
+      "card_number": 4713493618324210241,
+      "cvv": 947,
+      "exp_date": "07/27"
+    }
+  },
+  {
+    "id": 14,
+    "name": "Eric Powell",
+    "email": "mkim@gmail.com",
+    "phone": "(594)013-9904x90278",
+    "status": "active",
+    "membership": {
+      "id": 5014,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/luffy.png",
+    "subscriptions": [
+      {
+        "id": 2140,
+        "type": "Annual",
+        "vehicle_id": 1140
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1140,
+        "make": "Ramos, Ramirez and Shea",
+        "model": "Least",
+        "color": "SlateGray",
+        "plate": "PLT-1140",
+        "image": "/cars/dumb.png",
+        "subscription": "Annual"
+      },
+      {
+        "id": 1141,
+        "make": "Harrison Group",
+        "model": "Goal",
+        "color": "MediumBlue",
+        "plate": "PLT-1141",
+        "image": "/cars/sports.png",
+        "subscription": ""
+      },
+      {
+        "id": 1142,
+        "make": "Garcia, Martin and Jenkins",
+        "model": "Mission",
+        "color": "LightSlateGray",
+        "plate": "PLT-1142",
+        "image": "/cars/sports.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4014,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 36.52,
+        "card": 3014,
+        "location": "Landry, Cervantes and Pierce Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3014,
+      "name": "Eric Powell",
+      "address": "54516 Diane Plains Suite 603",
+      "city": "Cindyfort",
+      "state": "NV",
+      "zip": 7265,
+      "country": "USA",
+      "card_number": 4824771093241,
+      "cvv": 86,
+      "exp_date": "01/27"
+    }
+  },
+  {
+    "id": 15,
+    "name": "Ryan Wilson",
+    "email": "tyronemoran@thornton.info",
+    "phone": "782.639.8214",
+    "status": "active",
+    "membership": {
+      "id": 5015,
+      "type": "Platinum",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/cs major.png",
+    "subscriptions": [
+      {
+        "id": 2150,
+        "type": "Annual",
+        "vehicle_id": 1150
+      },
+      {
+        "id": 2151,
+        "type": "Annual",
+        "vehicle_id": 1151
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1150,
+        "make": "Morgan-French",
+        "model": "Example",
+        "color": "AliceBlue",
+        "plate": "PLT-1150",
+        "image": "/cars/dumb.png",
+        "subscription": "Annual"
+      },
+      {
+        "id": 1151,
+        "make": "Barber-Monroe",
+        "model": "Particularly",
+        "color": "SlateGray",
+        "plate": "PLT-1151",
+        "image": "/cars/audi.png",
+        "subscription": "Annual"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4015,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 38.85,
+        "card": 3015,
+        "location": "Griffin Group Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3015,
+      "name": "Ryan Wilson",
+      "address": "8867 Kane Square Apt. 963",
+      "city": "Williamsfort",
+      "state": "MS",
+      "zip": 51105,
+      "country": "USA",
+      "card_number": 4702895171870260,
+      "cvv": 217,
+      "exp_date": "12/29"
+    }
+  },
+  {
+    "id": 16,
+    "name": "Michael Santos",
+    "email": "ofinley@hotmail.com",
+    "phone": "001-780-913-4316x11724",
+    "status": "inactive",
+    "membership": {
+      "id": 5016,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/santa.png",
+    "subscriptions": [],
+    "vehicles": [],
+    "purchases": [
+      {
+        "id": 4016,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 36.76,
+        "card": 3016,
+        "location": "Williams Inc Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3016,
+      "name": "Michael Santos",
+      "address": "5623 Knight Turnpike Apt. 221",
+      "city": "Harveybury",
+      "state": "OR",
+      "zip": 19259,
+      "country": "USA",
+      "card_number": 4474074821755,
+      "cvv": 464,
+      "exp_date": "03/33"
+    }
+  },
+  {
+    "id": 17,
+    "name": "Christina Cruz",
+    "email": "youngashley@hotmail.com",
+    "phone": "406-409-0974x3953",
+    "status": "inactive",
+    "membership": {
+      "id": 5017,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/santa.png",
+    "subscriptions": [],
+    "vehicles": [
+      {
+        "id": 1170,
+        "make": "Lee, King and Campos",
+        "model": "Speak",
+        "color": "DarkSlateGray",
+        "plate": "PLT-1170",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4017,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 28.48,
+        "card": 3017,
+        "location": "Davis, Burton and Williams Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3017,
+      "name": "Christina Cruz",
+      "address": "95214 Burgess Extensions Apt. 285",
+      "city": "Mariaview",
+      "state": "NJ",
+      "zip": 39185,
+      "country": "USA",
+      "card_number": 3517123685160483,
+      "cvv": 754,
+      "exp_date": "05/35"
+    }
+  },
+  {
+    "id": 18,
+    "name": "Mark Watson",
+    "email": "jjohnson@herman-walker.com",
+    "phone": "+1-746-120-0471x1382",
+    "status": "active",
+    "membership": {
+      "id": 5018,
+      "type": "Platinum",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/starbucks.png",
+    "subscriptions": [
+      {
+        "id": 2180,
+        "type": "Monthly",
+        "vehicle_id": 1180
+      },
+      {
+        "id": 2182,
+        "type": "Monthly",
+        "vehicle_id": 1182
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1180,
+        "make": "Chavez-Santiago",
+        "model": "Situation",
+        "color": "Yellow",
+        "plate": "PLT-1180",
+        "image": "/cars/dumb.png",
+        "subscription": "Monthly"
+      },
+      {
+        "id": 1181,
+        "make": "Matthews-Barber",
+        "model": "Value",
+        "color": "PapayaWhip",
+        "plate": "PLT-1181",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      },
+      {
+        "id": 1182,
+        "make": "Garcia",
+        "model": "Far",
+        "color": "BlanchedAlmond",
+        "plate": "PLT-1182",
+        "image": "/cars/sports.png",
+        "subscription": "Monthly"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4018,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 38.67,
+        "card": 3018,
+        "location": "Wood, Ramos and Sampson Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3018,
+      "name": "Mark Watson",
+      "address": "58506 Lopez Crossing Suite 139",
+      "city": "North Kristinbury",
+      "state": "WY",
+      "zip": 74501,
+      "country": "USA",
+      "card_number": 4839335290422,
+      "cvv": 842,
+      "exp_date": "04/27"
+    }
+  },
+  {
+    "id": 19,
+    "name": "Allison Smith",
+    "email": "alfred40@harmon.com",
+    "phone": "001-177-589-1783x9084",
+    "status": "active",
+    "membership": {
+      "id": 5019,
+      "type": "Silver",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/pajama.png",
+    "subscriptions": [
+      {
+        "id": 2190,
+        "type": "Annual",
+        "vehicle_id": 1190
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1190,
+        "make": "Schneider-Johnson",
+        "model": "Measure",
+        "color": "PaleGoldenRod",
+        "plate": "PLT-1190",
+        "image": "/cars/sports.png",
+        "subscription": "Annual"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4019,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 19.13,
+        "card": 3019,
+        "location": "Parks-Henry Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3019,
+      "name": "Allison Smith",
+      "address": "15921 Joshua Roads Suite 698",
+      "city": "Shawnchester",
+      "state": "WY",
+      "zip": 92484,
+      "country": "USA",
+      "card_number": 2703673657661567,
+      "cvv": 4527,
+      "exp_date": "07/26"
+    }
+  },
+  {
+    "id": 20,
+    "name": "Bradley Reynolds",
+    "email": "angelawillis@hotmail.com",
+    "phone": "+1-516-560-4945",
+    "status": "inactive",
+    "membership": {
+      "id": 5020,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/lunar.jpg",
+    "subscriptions": [],
+    "vehicles": [
+      {
+        "id": 1200,
+        "make": "Lane and Sons",
+        "model": "Clear",
+        "color": "SkyBlue",
+        "plate": "PLT-1200",
+        "image": "/cars/sports.png",
+        "subscription": ""
+      },
+      {
+        "id": 1201,
+        "make": "Boone LLC",
+        "model": "Through",
+        "color": "NavajoWhite",
+        "plate": "PLT-1201",
+        "image": "/cars/dumb.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4020,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 37.49,
+        "card": 3020,
+        "location": "Farmer PLC Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3020,
+      "name": "Bradley Reynolds",
+      "address": "8998 Chelsea Shoals",
+      "city": "Anthonyview",
+      "state": "WV",
+      "zip": 41000,
+      "country": "USA",
+      "card_number": 370229612018363,
+      "cvv": 752,
+      "exp_date": "09/31"
+    }
+  },
+  {
+    "id": 21,
+    "name": "Frederick Pugh",
+    "email": "moorekaren@craig.info",
+    "phone": "+1-679-764-3815x61497",
+    "status": "inactive",
+    "membership": {
+      "id": 5021,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/cs major.png",
+    "subscriptions": [
+      {
+        "id": 2210,
+        "type": "Annual",
+        "vehicle_id": 1210
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1210,
+        "make": "Estrada",
+        "model": "Place",
+        "color": "Chartreuse",
+        "plate": "PLT-1210",
+        "image": "/cars/audi.png",
+        "subscription": "Annual"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4021,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 29.71,
+        "card": 3021,
+        "location": "Harris and Sons Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3021,
+      "name": "Frederick Pugh",
+      "address": "4510 Burgess Extensions",
+      "city": "South Amanda",
+      "state": "NY",
+      "zip": 73734,
+      "country": "USA",
+      "card_number": 4160607159696640,
+      "cvv": 605,
+      "exp_date": "05/28"
+    }
+  },
+  {
+    "id": 22,
+    "name": "Lisa Collier",
+    "email": "kimdaniel@yahoo.com",
+    "phone": "001-681-645-3521",
+    "status": "active",
+    "membership": {
+      "id": 5022,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/starbucks.png",
+    "subscriptions": [],
+    "vehicles": [],
+    "purchases": [
+      {
+        "id": 4022,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 16.77,
+        "card": 3022,
+        "location": "Schultz, Schmidt and Lee Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3022,
+      "name": "Lisa Collier",
+      "address": "2312 Gonzalez Rapids Apt. 127",
+      "city": "Webstershire",
+      "state": "TX",
+      "zip": 74490,
+      "country": "USA",
+      "card_number": 4527177449058140,
+      "cvv": 700,
+      "exp_date": "09/31"
+    }
+  },
+  {
+    "id": 23,
+    "name": "Angela Lin",
+    "email": "jford@huang.com",
+    "phone": "978-207-1518x20377",
+    "status": "active",
+    "membership": {
+      "id": 5023,
+      "type": "Silver",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/lunar.jpg",
+    "subscriptions": [],
+    "vehicles": [],
+    "purchases": [
+      {
+        "id": 4023,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 36.49,
+        "card": 3023,
+        "location": "Mills, Moore and Watson Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3023,
+      "name": "Angela Lin",
+      "address": "6590 Jones Court Suite 449",
+      "city": "West Christopher",
+      "state": "FL",
+      "zip": 46352,
+      "country": "USA",
+      "card_number": 4291486528168505422,
+      "cvv": 573,
+      "exp_date": "04/29"
+    }
+  },
+  {
+    "id": 24,
+    "name": "Mrs. Elizabeth French DDS",
+    "email": "nancy92@bennett.org",
+    "phone": "(706)537-9473",
+    "status": "active",
+    "membership": {
+      "id": 5024,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/santa.png",
+    "subscriptions": [
+      {
+        "id": 2241,
+        "type": "Annual",
+        "vehicle_id": 1241
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1240,
+        "make": "Allen",
+        "model": "Well",
+        "color": "GoldenRod",
+        "plate": "PLT-1240",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      },
+      {
+        "id": 1241,
+        "make": "Gregory-Hudson",
+        "model": "Let",
+        "color": "SandyBrown",
+        "plate": "PLT-1241",
+        "image": "/cars/audi.png",
+        "subscription": "Annual"
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4024,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 34.62,
+        "card": 3024,
+        "location": "Strickland-Shaw Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3024,
+      "name": "Mrs. Elizabeth French DDS",
+      "address": "39240 Sawyer Plaza Apt. 814",
+      "city": "Port Ethanmouth",
+      "state": "NY",
+      "zip": 19814,
+      "country": "USA",
+      "card_number": 6011375060685369,
+      "cvv": 530,
+      "exp_date": "11/30"
+    }
+  },
+  {
+    "id": 25,
+    "name": "Sara Santos",
+    "email": "benjaminlowery@horton-taylor.info",
+    "phone": "901.043.2898x614",
+    "status": "inactive",
+    "membership": {
+      "id": 5025,
+      "type": "Silver",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/lunar.jpg",
+    "subscriptions": [],
+    "vehicles": [],
+    "purchases": [
+      {
+        "id": 4025,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 31.47,
+        "card": 3025,
+        "location": "Turner Inc Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3025,
+      "name": "Sara Santos",
+      "address": "9711 Carlson Brook",
+      "city": "Lake Douglas",
+      "state": "AL",
+      "zip": 81085,
+      "country": "USA",
+      "card_number": 349621851888886,
+      "cvv": 670,
+      "exp_date": "01/32"
+    }
+  },
+  {
+    "id": 26,
+    "name": "Mrs. Alexis Kramer",
+    "email": "jessicafuller@hotmail.com",
+    "phone": "001-520-585-2772x2170",
+    "status": "inactive",
+    "membership": {
+      "id": 5026,
+      "type": "Elite",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/old.jpg",
+    "subscriptions": [
+      {
+        "id": 2260,
+        "type": "Monthly",
+        "vehicle_id": 1260
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1260,
+        "make": "Harris-Moody",
+        "model": "Various",
+        "color": "BlueViolet",
+        "plate": "PLT-1260",
+        "image": "/cars/audi.png",
+        "subscription": "Monthly"
+      },
+      {
+        "id": 1261,
+        "make": "Mahoney-Robertson",
+        "model": "Teacher",
+        "color": "YellowGreen",
+        "plate": "PLT-1261",
+        "image": "/cars/sports.png",
+        "subscription": ""
+      },
+      {
+        "id": 1262,
+        "make": "King-Mullins",
+        "model": "Cut",
+        "color": "LightSlateGray",
+        "plate": "PLT-1262",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4026,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 21.22,
+        "card": 3026,
+        "location": "Atkins-Williams Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3026,
+      "name": "Mrs. Alexis Kramer",
+      "address": "1566 Kline Lights Suite 277",
+      "city": "Sandrahaven",
+      "state": "CO",
+      "zip": 95801,
+      "country": "USA",
+      "card_number": 601169284511544,
+      "cvv": 962,
+      "exp_date": "12/32"
+    }
+  },
+  {
+    "id": 27,
+    "name": "Andrew Berg",
+    "email": "yhill@gmail.com",
+    "phone": "658-202-9702",
+    "status": "active",
+    "membership": {
+      "id": 5027,
+      "type": "Elite",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/santa.png",
+    "subscriptions": [],
+    "vehicles": [
+      {
+        "id": 1270,
+        "make": "Young Ltd",
+        "model": "Hit",
+        "color": "MistyRose",
+        "plate": "PLT-1270",
+        "image": "/cars/audi.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4027,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 21.96,
+        "card": 3027,
+        "location": "Herring-Johnson Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3027,
+      "name": "Andrew Berg",
+      "address": "755 Hines Ports",
+      "city": "New Michael",
+      "state": "SD",
+      "zip": 37029,
+      "country": "USA",
+      "card_number": 4027868144733,
+      "cvv": 473,
+      "exp_date": "07/27"
+    }
+  },
+  {
+    "id": 28,
+    "name": "Benjamin Thompson",
+    "email": "cochrantammy@yahoo.com",
+    "phone": "+1-518-844-2258x31323",
+    "status": "active",
+    "membership": {
+      "id": 5028,
+      "type": "Elite",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/cs major.png",
+    "subscriptions": [],
+    "vehicles": [],
+    "purchases": [
+      {
+        "id": 4028,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 16.26,
+        "card": 3028,
+        "location": "Johnson-Spencer Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3028,
+      "name": "Benjamin Thompson",
+      "address": "8291 Kyle Stravenue Suite 866",
+      "city": "East Teresaland",
+      "state": "NH",
+      "zip": 89644,
+      "country": "USA",
+      "card_number": 180028922680189,
+      "cvv": 422,
+      "exp_date": "12/30"
+    }
+  },
+  {
+    "id": 29,
+    "name": "Courtney Meza",
+    "email": "kingcynthia@hotmail.com",
+    "phone": "249-818-2992x299",
+    "status": "active",
+    "membership": {
+      "id": 5029,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/cs major.png",
+    "subscriptions": [],
+    "vehicles": [
+      {
+        "id": 1290,
+        "make": "Kirby-Elliott",
+        "model": "That",
+        "color": "Black",
+        "plate": "PLT-1290",
+        "image": "/cars/dumb.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4029,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 27.03,
+        "card": 3029,
+        "location": "Williams Ltd Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3029,
+      "name": "Courtney Meza",
+      "address": "396 Tyler Road Suite 473",
+      "city": "Evansland",
+      "state": "AR",
+      "zip": 21220,
+      "country": "USA",
+      "card_number": 36773592555627,
+      "cvv": 8815,
+      "exp_date": "07/29"
+    }
+  },
+  {
+    "id": 30,
+    "name": "Derek Wright",
+    "email": "robertspatrick@barnes.com",
+    "phone": "001-532-787-7470",
+    "status": "inactive",
+    "membership": {
+      "id": 5030,
+      "type": "Gold",
+      "start": "2024-01-01",
+      "renew": "2025-01-01"
+    },
+    "profileImage": "/profilepictures/clown.png",
+    "subscriptions": [
+      {
+        "id": 2300,
+        "type": "Annual",
+        "vehicle_id": 1300
+      }
+    ],
+    "vehicles": [
+      {
+        "id": 1300,
+        "make": "Landry PLC",
+        "model": "Lot",
+        "color": "LawnGreen",
+        "plate": "PLT-1300",
+        "image": "/cars/dumb.png",
+        "subscription": "Annual"
+      },
+      {
+        "id": 1301,
+        "make": "Aguilar Inc",
+        "model": "Apply",
+        "color": "LightSkyBlue",
+        "plate": "PLT-1301",
+        "image": "/cars/dumb.png",
+        "subscription": ""
+      },
+      {
+        "id": 1302,
+        "make": "Harper-Cameron",
+        "model": "Remember",
+        "color": "SeaShell",
+        "plate": "PLT-1302",
+        "image": "/cars/sports.png",
+        "subscription": ""
+      }
+    ],
+    "purchases": [
+      {
+        "id": 4030,
+        "type": "Car Wash",
+        "date": "2025-04-27",
+        "amount": 38.93,
+        "card": 3030,
+        "location": "Herrera-Boone Car Wash"
+      }
+    ],
+    "card": {
+      "id": 3030,
+      "name": "Derek Wright",
+      "address": "45650 Williams Points Apt. 584",
+      "city": "South Williamside",
+      "state": "RI",
+      "zip": 89682,
+      "country": "USA",
+      "card_number": 3521655852398689,
+      "cvv": 2,
+      "exp_date": "02/31"
     }
   }
 ]
@@ -2721,6 +1665,7 @@ const customers: Customer[] = [
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  // Initialize with all customers, or a slice if intended for pagination from the start
   const [user, setUser] = useState<Customer[]>(customers);
 
   return (

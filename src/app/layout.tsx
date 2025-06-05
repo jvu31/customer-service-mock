@@ -33,7 +33,7 @@ export default function RootLayout({
                 alt="Profile"
                 width={75}
                 height={75}
-                className="rounded-full hover:border-2 hover:border-dark_blue"
+                className="rounded-full hover:border-2 hover:border-dark_blue transition-transform duration-200 ease-in-out hover:scale-105"
               />
             </button>
           </div>
@@ -60,6 +60,7 @@ export default function RootLayout({
             </div>
 
             {/* Main Content */}
+            
             <div className="flex-1 h-full overflow-y-auto p-6">{children}</div>
           </div>
         </div>

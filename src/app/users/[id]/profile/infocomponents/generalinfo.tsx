@@ -67,9 +67,9 @@ export default function GeneralInfo({ user, updateUser }: Props) {
         {/* Non-Editing Mode */}
         {editUser !== true && (
           <div className="space-y-2">
-            <h2>
-              {user.email} | {user.phone}
-            </h2>
+            <h3>
+              {user.email}<span className="mx-4">|</span>{user.phone}
+            </h3>
             <div
               className={`rounded-md w-fit p-1 ${
                 user.membership.type === "Silver"

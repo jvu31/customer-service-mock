@@ -62,8 +62,13 @@ export default function Vehicle({ user, updateVehicles }: Props) {
       subscription: "None",
     };
 
-    setNewVehicles((prevVehicles) => [...prevVehicles, { ...newVehicle }]);
-    setPendingChanges(true);
+    const updatedVehiclesArray = [...newVehicles, newVehicle];
+    setNewVehicles(updatedVehiclesArray);
+    updateVehicles({
+      vehicles: updatedVehiclesArray,
+      subscriptions: newSubscriptions,
+    });
+    
     setMake("");
     setModel("");
     setColor("");
@@ -118,9 +123,7 @@ export default function Vehicle({ user, updateVehicles }: Props) {
       setPopupMessage("Are you sure you want to remove this subscription?");
     } else {
       // Adding a new subcription to list
-      if (
-        !newSubscriptions.some((subscription) => subscription.vehicle_id === id)
-      ) {
+      if (!newSubscriptions.some((subscription) => subscription.vehicle_id === id)) {
         setNewSubscriptions((prevSubscriptions) => [
           ...prevSubscriptions,
           { id: 0, vehicle_id: id, type: value },
@@ -197,17 +200,17 @@ export default function Vehicle({ user, updateVehicles }: Props) {
           <div className="bg-white rounded-lg flex flex-col items-center justify-center shadow-md p-8 w-[300px] space-y-4">
             <div className="py-4">
               <button
-              className={`items-center justify-center px-4 py-2 rounded text-white ${
-                !newMake || !newModel || !newColor || !newPlate
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-dark_blue hover:bg-light_blue"
-              }`}
-              onClick={addVehicle}
-              disabled={!newMake || !newModel || !newColor || !newPlate}
-            >
-              Add Vehicle
-            </button>
-              </div>
+                className={`items-center justify-center px-4 py-2 rounded text-white ${
+                  !newMake || !newModel || !newColor || !newPlate
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-dark_blue hover:bg-light_blue"
+                }`}
+                onClick={addVehicle}
+                disabled={!newMake || !newModel || !newColor || !newPlate}
+              >
+                Add Vehicle
+              </button>
+            </div>
             <div className="flex w-full space-x-2 textbox">
               {["make", "model", "color"].map((field) => (
                 <div key={field} className="relative w-24 flex">

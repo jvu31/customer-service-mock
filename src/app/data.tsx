@@ -1,8 +1,7 @@
 "use client"
-import { createContext, useState, useContext, Dispatch, SetStateAction } from 'react'
-import user_data from './user_data.json'
+import { createContext, useState, Dispatch, SetStateAction } from 'react'
 
-export interface Vehicle { // Export Vehicle interface
+export interface Vehicle { 
     id: number;
     make: string
     model: string
@@ -5353,7 +5352,6 @@ const customers: Customer[] = [
 export const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  // Initialize with all customers, or a slice if intended for pagination from the start
   const [user, setUser] = useState<Customer[]>(customers);
 
   return (

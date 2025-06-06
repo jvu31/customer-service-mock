@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Customer, Purchases, Card } from "@/app/data";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Props {
   user: Customer;
@@ -46,10 +47,10 @@ export default function History({ user }: Props) {
           </button>
           <div>Amount</div>
         </div>
-        <div className="overflow-y-auto max-h-[450px]"> {/* Added max-height to make rows scrollable */}
-            {displayPurchases.map((purchase) => (
-          <EventItem key={purchase.id} purchase={purchase} card={user.card} />
-        ))}
+        <div className="overflow-y-auto max-h-[450px]">
+          {displayPurchases.map((purchase) => (
+            <EventItem key={purchase.id} purchase={purchase} card={user.card} />
+          ))}
         </div>
       </div>
     </div>
@@ -61,7 +62,7 @@ const EventItem = ({ purchase, card }: PurchaseProps) => {
   const [isDropdown, setDropdown] = useState(false);
 
   return (
-    <div className="border-b border-light_blue py-4 px-2 space-y-4">
+    <motion.div className="border-b border-light_blue py-4 px-2 space-y-4">
       <div className="grid grid-cols-3 text-black">
         <div className="font-bold space-x-2 flex">
           <button onClick={() => setDropdown(!isDropdown)}>
@@ -72,16 +73,28 @@ const EventItem = ({ purchase, card }: PurchaseProps) => {
         <div>{purchase.date}</div>
         <div>${purchase.amount}</div>
       </div>
-      {isDropdown && (
-        <div className="grid grid-cols-3 text-black">
-          <div>
-            <span className="font-bold">Card:</span> xxxx-xxxx-xxxx-
-            {String(card.card_number).slice(-4)}
-          </div>
-          <div><span className="font-bold">Location:</span> {purchase.location}</div>
-          <div><span className="font-bold">Invoice-ID:</span> {purchase.id}</div>
-        </div>
-      )}
-    </div>
+      <AnimatePresence>
+        {isDropdown && (
+          <motion.div
+            className="grid grid-cols-3 text-black"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            <div>
+              <span className="font-bold">Card:</span> xxxx-xxxx-xxxx-
+              {String(card.card_number).slice(-4)}
+            </div>
+            <div>
+              <span className="font-bold">Location:</span> {purchase.location}
+            </div>
+            <div>
+              <span className="font-bold">Invoice-ID:</span> {purchase.id}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 };

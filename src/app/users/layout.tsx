@@ -1,4 +1,3 @@
-'use client'
 import { UserProvider } from "@/app/data";
 
 export default function UsersLayout({

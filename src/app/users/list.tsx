@@ -2,12 +2,13 @@ import React, { useState, useContext } from "react";
 import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { UserContext } from "@/app/data";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 
 export default function List() {
   // Logic for retrieving users from context
   const { user: users } = useContext(UserContext)!;
-  const [displayUsers, setDisplayUsers] = useState(users)
+  const [displayUsers, setDisplayUsers] = useState(users);
 
   // Logic for multiple pages
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,7 +53,9 @@ export default function List() {
 
   return (
     <div className="page">
-      <h2>Users <span className="mx-3">{">"}</span> List</h2>
+      <h2>
+        Users <span className="mx-3">{">"}</span> List
+      </h2>
       <h1>List</h1>
       {/* Search */}
       <div className="flex items-center border border-dark_gray rounded-full bg-white w-1/4">
@@ -80,42 +83,53 @@ export default function List() {
         </div>
         {/* List */}
         <div className="flex-1 overflow-y-auto max-h-[450px]">
-          {currentUsers.map((user) => (
-            <Link href={`/users/${user.id}/profile`} key={user.id}>
-              <div className="border-b border-light_blue py-4 hover:bg-light_gray">
-                <div className="grid grid-cols-4 px-2 text-black">
-                  <div className="font-bold flex items-center">{user.name}</div>
-                  <div className="flex items-center">{user.phone}</div>
-                  <div
-                    className={`rounded-md w-fit p-1 ${
-                      user.membership.type === "Silver"
-                        ? "text-white bg-gradient-to-r from-gray-400 to-gray-600"
-                        : user.membership.type === "Gold"
-                        ? "text-white bg-gradient-to-r from-yellow-400 to-yellow-600"
-                        : user.membership.type === "Platinum"
-                        ? "text-white bg-gradient-to-r from-red-500 to-red-700"
-                        : user.membership.type === "Elite"
-                        ? "text-white bg-gradient-to-r from-blue-500 to-blue-700"
-                        : ""
-                    }`}
-                  >
-                    {user.membership.type}
+          <AnimatePresence mode="wait">
+            {currentUsers.map((user) => (
+              <motion.div
+                key={user.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.15 }}
+              >
+                <Link href={`/users/${user.id}/profile`}>
+                  <div className="border-b border-light_blue py-4 hover:bg-light_gray">
+                    <div className="grid grid-cols-4 px-2 text-black">
+                      <div className="font-bold flex items-center">
+                        {user.name}
+                      </div>
+                      <div className="flex items-center">{user.phone}</div>
+                      <div
+                        className={`rounded-md w-fit p-1 ${
+                          user.membership.type === "Silver"
+                            ? "text-white bg-gradient-to-r from-gray-400 to-gray-600"
+                            : user.membership.type === "Gold"
+                            ? "text-white bg-gradient-to-r from-yellow-400 to-yellow-600"
+                            : user.membership.type === "Platinum"
+                            ? "text-white bg-gradient-to-r from-red-500 to-red-700"
+                            : user.membership.type === "Elite"
+                            ? "text-white bg-gradient-to-r from-blue-500 to-blue-700"
+                            : ""
+                        }`}
+                      >
+                        {user.membership.type}
+                      </div>
+                      <div
+                        className={`flex items-center ${
+                          user.status === "active"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {user.status.toUpperCase()}
+                      </div>
+                    </div>
                   </div>
-                  <div
-                    className={`flex items-center ${
-                      user.status === "active"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
-                  >
-                    {user.status.toUpperCase()}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+                </Link>
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
-
         {/* Pagination */}
         <div className="justify-end text-dark_gray flex space-x-8 pt-2 items-center px-2">
           {/* Setting rows per page */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useContext, useEffect, Suspense } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Customer, UserContext } from "@/app/data";
 import Link from "next/link";
 const LazyGeneralInfo = React.lazy(
@@ -19,10 +19,9 @@ import { useRouter } from "next/navigation";
 export default function Profile({ id }: { id: number }) {
   const { user: users, setUser: setUsers } = useContext(UserContext)!;
   const [user, setUser] = useState<Customer | undefined>(() =>
-    users.find((u) => u.id === id)
+    users.find((user) => user.id === id)
   );
   const [showPopup, setShowPopup] = useState(false);
-  const message = "Are you sure you want to delete this account?";
   const router = useRouter();
 
   const [activePage, setPage] = useState("general");
@@ -73,9 +72,7 @@ export default function Profile({ id }: { id: number }) {
   };
 
   // Updates the user's card information
-  const updateCardUser = (
-    updatedDetails: Partial<Pick<Customer, "card">>
-  ) => {
+  const updateCardUser = (updatedDetails: Partial<Pick<Customer, "card">>) => {
     setUsers(
       users.map((user) =>
         user.id === id
@@ -110,55 +107,37 @@ export default function Profile({ id }: { id: number }) {
       </div>
       {/* Header Tab */}
       <div className="flex space-x-6">
-        <button
-          onClick={() => setPage("general")}
+        {["general", "vehicle", "payments", "card"].map((page) => (
+          <button
+          onClick={() => setPage(page)} key={page}
           className={`py-2 px-1 text-xl transition-colors duration-200 ease-in-out 
             ${
-              activePage === "general"
+              activePage === page
                 ? "text-dark_blue border-b-2 border-dark_blue font-semibold"
                 : "text-dark_gray hover:text-dark_blue"
             }`}
         >
-          General Info
+          {page.charAt(0).toUpperCase() + page.slice(1)}
         </button>
-        <button
-          onClick={() => setPage("payments")}
-          className={`py-2 px-1 text-xl transition-colors duration-200 ease-in-out 
-            ${
-              activePage === "payments"
-                ? "text-dark_blue border-b-2 border-dark_blue font-semibold"
-                : "text-dark_gray hover:text-dark_blue"
-            }`}
-        >
-          Payments
-        </button>
-        <button
-          onClick={() => setPage("card")}
-          className={`py-2 px-1 text-xl transition-colors duration-200 ease-in-out 
-            ${
-              activePage === "card"
-                ? "text-dark_blue border-b-2 border-dark_blue font-semibold"
-                : "text-dark_gray hover:text-dark_blue"
-            }`}
-        >
-          Card
-        </button>
+          ))}
       </div>
       {activePage === "general" && (
-        <Suspense fallback={<div>Loading...</div>}>
-          <LazyGeneralInfo user={user} updateUser={updateGeneralUser} />
-          <LazyVehicleInfo user={user} updateVehicles={updateVehicleUser} />
-        </Suspense>
+        <LazyGeneralInfo user={user} updateUser={updateGeneralUser} />
+      )}
+      {activePage === "vehicle" && (
+        <LazyVehicleInfo user={user} updateVehicles={updateVehicleUser} />
       )}
       {activePage === "payments" && <LazyHistoryInfo user={user} />}
-      {activePage === "card" && <LazyCardInfo user={user} updateCard={updateCardUser} />}
+      {activePage === "card" && (
+        <LazyCardInfo user={user} updateCard={updateCardUser} />
+      )}
 
       {showPopup && (
         <Popup
           onConfirm={deleteUser}
           onCancel={() => setShowPopup(false)}
           header="Delete Account"
-          message={message}
+          message="Are you sure you want to delete this account?"
         />
       )}
     </div>
